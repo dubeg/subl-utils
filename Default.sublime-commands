@@ -1,0 +1,12 @@
+[
+    {
+        "caption": "Open /Packages",
+        "command": "open_dir2", 
+        "args": {"dir": "$packages"}
+    },
+    {
+        "caption": "Open /Users",
+        "command": "open_dir2", 
+        "args": {"dir": "$packages/User"}
+    },    
+]
