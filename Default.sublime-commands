@@ -8,5 +8,10 @@
         "caption": "Open /Users",
         "command": "open_dir2", 
         "args": {"dir": "$packages/User"}
-    },    
+    },
+    {
+        "caption": "Open Preferences",
+        "command": "open_file", 
+        "args": {"file": "$packages/User/Preferences.sublime-settings"}
+    },         
 ]
