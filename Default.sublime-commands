@@ -10,7 +10,7 @@
         "args": {"dir": "$packages/User"}
     },
     {
-        "caption": "Open Preferences",
+        "caption": "Open /Preferences",
         "command": "open_file", 
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
     },         
