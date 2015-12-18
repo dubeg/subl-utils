@@ -1,17 +1,34 @@
 [
     {
-        "caption": "Open /Packages",
-        "command": "open_dir2", 
+        "caption": "Open Packages/",
+        "command": "open_in_file_manager", 
         "args": {"dir": "$packages"}
     },
     {
-        "caption": "Open /Users",
-        "command": "open_dir2", 
+        "caption": "Open Users/",
+        "command": "open_in_file_manager", 
         "args": {"dir": "$packages/User"}
     },
     {
-        "caption": "Open /Preferences",
+        "caption": "Open Preferences",
         "command": "open_file", 
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
     },         
+    {
+        "caption": "Open Directory",
+        "command": "prompt_open_folder"
+    },
+    {
+        "caption": "Open File",
+        "command": "prompt_open_file"
+    },
+
+    /* 
+    Favs
+    ~~~~~~~~~~~~~~~~~ 
+    */  
+    {
+        "caption": "Fav: open",
+        "command": "open_fav"
+    },
 ]

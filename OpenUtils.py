@@ -6,21 +6,49 @@ import sys
 import subprocess
 
 
-class OpenDir2(sublime_plugin.WindowCommand):
+class OpenInFileManager(sublime_plugin.WindowCommand):
     def run(self, dir):        
         path = dir.replace("$packages", sublime.packages_path())
+        path = path.replace('/', '\\')
 
         platLinux = 'linux2' # linux2/3
-        platMaxOSX = 'darwin'
+        platMacOSX = 'darwin'
         platWindows = 'win32'
+
+        cmdWin = 'explorer'
+        optWinSelect = '/select,'
         
+        cmdOSX = 'open'
+        optOSX = ''
+
+        cmdLinux = 'xdg-open'
+        optLinux = ''
+
+        cmd = None
+        opts = None
+
         if sys.platform == platWindows:
-            os.startfile(path)
-        elif sys.platform == platMaxOSX:
-            subprocess.Popen(['open', path])
+            cmd = cmdWin
+            opts = [ optWinSelect ]
+        elif sys.platform == platMacOSX:
+            cmd = cmdOSX
+            opts = [ optOSX ]
         elif sys.platform.startswith( platLinux ):
-            subprocess.Popen(["xdg-open", path])
-            # subprocess.check_call(['gnome-open', '--', path])
+            cmd = cmdLinux
+            opts = [ optLinux ]    
+        # Go
+        if os.path.isdir(path):
+            print([cmd, path])
+            subprocess.Popen([cmd, path])
+        else:
+            print([cmd, opts, path])
+            subprocess.Popen([cmd, opts, path])
+        
+        # Just as reminder
+        # ~~~~~~~~~~~~~~~~    
+        # subprocess.check_call(['gnome-open', '--', path])
+        # self.window.run_command("open_dir",{"dir": os.path.dirname(path)})
+        # os.startfile(path)
 
 
 class OpenFolder(sublime_plugin.WindowCommand):
