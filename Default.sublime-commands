@@ -1,4 +1,6 @@
 [
+    // Open in FileManager
+    // ~~~~~~~~~~~~~~~~~~~ 
     {
         "caption": "Open Packages/",
         "command": "open_in_file_manager", 
@@ -10,10 +12,14 @@
         "args": {"dir": "$packages/User"}
     },
     {
-        "caption": "Open Preferences",
-        "command": "open_file", 
-        "args": {"file": "$packages/User/Preferences.sublime-settings"}
-    },         
+        "caption": "Open Utils/",
+        "command": "open_in_file_manager", 
+        "args": {"dir": "$packages/Utils"}
+    },    
+
+
+    // Open Prompts
+    // ~~~~~~~~~~~~~~~~~           
     {
         "caption": "Open Folder...",
         "command": "prompt_open_folder"
@@ -23,18 +29,32 @@
         "command": "prompt_open_file"
     },
 
-    /* 
-    Favs
-    ~~~~~~~~~~~~~~~~~ 
-    */  
+
+    // Open Known files/folders
+    // ~~~~~~~~~~~~~~~~~   
+    {
+        "caption": "Open Preferences",
+        "command": "open_file", 
+        "args": {"file": "$packages/User/Preferences.sublime-settings"}
+    }, 
+
+    
+    // Favs
+    // ~~~~~~~~~~~~~~~~~  
     /*
     {
         "caption": "Fav: open",
         "command": "open_fav"
     },
     */
+
+
+    // Word wrap
+    // ~~~~~~~~~~~~~~~~~  
     {
         "caption": "Toggler Ruler",
         "command": "toggle_ruler"
     },
+    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption":  "Set wrap: 80"},
+    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 120}, "caption": "Set wrap: 120"}
 ]

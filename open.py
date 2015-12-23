@@ -1,13 +1,13 @@
 import sublime
 import sublime_plugin
-from subprocess import call
 import os
 import sys
 import subprocess
 
 
 class OpenInFileManager(sublime_plugin.WindowCommand):
-    def run(self, dir):        
+    def run(self, dir):  
+         
         path = dir.replace("$packages", sublime.packages_path())
         path = path.replace('/', '\\')
 
