@@ -15,11 +15,11 @@
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
     },         
     {
-        "caption": "Open Directory",
+        "caption": "Open Folder...",
         "command": "prompt_open_folder"
     },
     {
-        "caption": "Open File",
+        "caption": "Open File...",
         "command": "prompt_open_file"
     },
 
@@ -27,8 +27,14 @@
     Favs
     ~~~~~~~~~~~~~~~~~ 
     */  
+    /*
     {
         "caption": "Fav: open",
         "command": "open_fav"
+    },
+    */
+    {
+        "caption": "Toggler Ruler",
+        "command": "toggle_ruler"
     },
 ]
