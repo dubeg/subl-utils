@@ -45,18 +45,20 @@ class RulerManager(object):
 	def toggleRuler(self):
 		rulers = self.get_rulers()
 		word_wrap = self.get_word_wrap()
+		subl_msg = "Wrap: N/A"
 
 		if self.is_ruler_displayed():
 			rulers = []
 			word_wrap = False
-			print("Wrap: OFF")
+			subl_msg = "Wrap: OFF"
 		else:
 			rulers = [self.get_wrap_width()]
 			word_wrap = True
-			print("Wrap: ON")
+			subl_msg = "Wrap: ON"
 
 		self.set_rulers(rulers)
 		self.set_word_wrap(word_wrap)
+		sublime.status_message(subl_msg)
 
 	# --------------
 	# Adjust ruler
