@@ -20,31 +20,47 @@ class RulerManager(object):
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	def set_rulers(self, value):
 		self.settings.set("rulers", value)
+	def set_word_wrap(self, value):
+		self.settings.set("word_wrap", value)
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# Methods
-	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	# --------------
+	# Toggle (wrapper fn)
+	# --------------
 	def toggle(self):
 		# Variables
-		is_source_code = "source" in self.view.scope_name(0)
-		word_wrap = self.get_word_wrap()
+		# is_source_code = "source" in self.view.scope_name(0)
+		self.toggleRuler()
 
-		if(word_wrap != False) and (is_source_code == False):
-			self.toggleRuler()
-			print("Ruler: toggled.")
-		else:
-			print("Ruler: no action taken")		
-
+	# --------------
+	# Is Ruler displayed?
+	# --------------
 	def is_ruler_displayed(self):
 		return ( len(self.get_rulers()) > 0 )
 
+	# --------------
+	# Toggle ruler
+	# --------------
 	def toggleRuler(self):
 		rulers = self.get_rulers()
-		if self.is_ruler_displayed() == False:
-			rulers = [self.get_wrap_width()]
-		else:
-			rulers = []
-		self.set_rulers(rulers)
+		word_wrap = self.get_word_wrap()
 
+		if self.is_ruler_displayed():
+			rulers = []
+			word_wrap = False
+			print("Wrap: OFF")
+		else:
+			rulers = [self.get_wrap_width()]
+			word_wrap = True
+			print("Wrap: ON")
+
+		self.set_rulers(rulers)
+		self.set_word_wrap(word_wrap)
+
+	# --------------
+	# Adjust ruler
+	# --------------
 	def adjust_ruler(self):
 		rulers = self.get_rulers()
 		wrap_width = self.get_wrap_width()
