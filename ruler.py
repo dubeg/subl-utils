@@ -2,94 +2,85 @@ import sublime
 import sublime_plugin
 
 
-class RulerManager(object):
+class ViewUtil(object):
 	def __init__(self, view):
-		self.view = view
-		self.settings = view.settings()
+		self.view = view;
+		self.settings = view.settings();
+
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# Getters
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	def get_rulers(self):
 		return self.settings.get("rulers")
+
 	def get_word_wrap(self):
 		return self.settings.get("word_wrap")
+
 	def get_wrap_width(self):
-		return self.settings.get("wrap_width")		
+		return self.settings.get("wrap_width")
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	# Setters 
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	def set_rulers(self, value):
 		self.settings.set("rulers", value)
+
 	def set_word_wrap(self, value):
 		self.settings.set("word_wrap", value)
+
+	def set_wrap_width(self, value):
+		self.settings.set("wrap_width", value);
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	# Methods
-
-	# --------------
-	# Toggle (wrapper fn)
-	# --------------
-	def toggle(self):
-		# Variables
-		# is_source_code = "source" in self.view.scope_name(0)
-		self.toggleRuler()
-
-	# --------------
-	# Is Ruler displayed?
-	# --------------
-	def is_ruler_displayed(self):
-		return ( len(self.get_rulers()) > 0 )
-
-	# --------------
-	# Toggle ruler
-	# --------------
-	def toggleRuler(self):
+	# Set Wrap
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	def setWrap(self, width):
 		rulers = self.get_rulers()
 		word_wrap = self.get_word_wrap()
-		subl_msg = "Wrap: N/A"
+		status = "Wrap: N/A"
 
-		if self.is_ruler_displayed():
-			rulers = []
-			word_wrap = False
-			subl_msg = "Wrap: OFF"
+		if (width > 0): 
+			rulers = [width];
+			word_wrap = True;
+			status = "Wrap: ON";
 		else:
-			rulers = [self.get_wrap_width()]
-			word_wrap = True
-			subl_msg = "Wrap: ON"
+			rulers = [];
+			word_wrap = False;
+			status = "Wrap: OFF"
 
 		self.set_rulers(rulers)
 		self.set_word_wrap(word_wrap)
-		sublime.status_message(subl_msg)
+		self.set_wrap_width(width)
+		sublime.status_message(status)
 
 	# --------------
-	# Adjust ruler
+	# Update Rulers
 	# --------------
-	def adjust_ruler(self):
+	def update_ruler(self):
 		rulers = self.get_rulers()
 		wrap_width = self.get_wrap_width()
+		
+		if (wrap_width is not None) and (wrap_width > 0):
+			rulers = [wrap_width];
+		else:
+			rulers = [];
+		
+		self.set_rulers(rulers);
+		return;
 
-		if self.is_ruler_displayed() == True: 
-			rulers = [wrap_width]
-			self.set_rulers(rulers)		
-		return
 
 
+class DisableWrap(sublime_plugin.TextCommand):
+	def run(self, edit):		
+		viewUtil = ViewUtil(self.view);
+		viewUtil.setWrap(0);
+		return;
 
-class ToggleRuler(sublime_plugin.TextCommand):
+class SetWrap(sublime_plugin.TextCommand):
 	def __init__(self, view):
-		self.RulerManager = RulerManager(view)
-		self.view = view
-
-	def run(self, edit):
-		self.RulerManager.toggle()
-		return
-
-
-class SetWordWrap(sublime_plugin.TextCommand):
-	def __init__(self, view):
-		self.RulerManager = RulerManager(view)
-		self.view = view
-		self.view.settings().add_on_change("wrap_width", self.RulerManager.adjust_ruler)
+		self.view = view;
+		return;
+		#view.settings().add_on_change("wrap_width", on_wrapwidth_changed);
 
 	def run(self, edit, width):		
-		settings = self.view.settings()
-		settings.set("wrap_width", width)
+		viewUtil = ViewUtil(self.view);
+		viewUtil.setWrap(width);
+		return;
