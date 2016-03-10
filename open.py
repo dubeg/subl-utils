@@ -36,12 +36,12 @@ class OpenInFileManager(sublime_plugin.WindowCommand):
         elif sys.platform.startswith( platLinux ):
             cmd = cmdLinux
             opts = [ optLinux ]    
-        # Go
+        # Execute
         if os.path.isdir(path):
-            print([cmd, path])
+            #print([cmd, path])
             subprocess.Popen([cmd, path])
         else:
-            print([cmd, opts, path])
+            #print([cmd, opts, path])
             subprocess.Popen([cmd, opts, path])
         
         # Just as reminder
