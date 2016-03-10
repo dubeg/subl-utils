@@ -16,6 +16,12 @@
         "command": "open_in_file_manager", 
         "args": {"dir": "$packages/Utils"}
     },    
+    {
+        "caption": "Open Projects/",
+        "command": "open_in_file_manager", 
+        "args": {"dir": "$packages/User/Projects"}
+    },    
+
 
 
     // Open Prompts
@@ -37,24 +43,84 @@
         "command": "open_file", 
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
     }, 
-
     
-    // Favs
+    // Project Management
     // ~~~~~~~~~~~~~~~~~  
-    /*
+    
     {
-        "caption": "Fav: open",
-        "command": "open_fav"
+        "caption": "Project+: Open",
+        "command": "project_open"
     },
-    */
-
+    {
+        "caption": "Project+: Save",
+        "command": "project_save"
+    },  
+    {
+        "caption": "Project+: Save As",
+        "command": "project_save",
+        "args": {
+            "save_as": true
+        }
+    }, 
+    //{
+    //    "caption": "Project+: Info",
+    //    "command": "project_info"
+    //}, 
 
     // Word wrap
     // ~~~~~~~~~~~~~~~~~  
     {
-        "caption": "Ruler",
-        "command": "toggle_ruler"
+        "caption": "Ruler:   0",
+        "command": "set_wrap",
+        "args":{
+            "width": 0
+        }
     },
-    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption":  "Ruler: 80"},
-    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 120}, "caption": "Ruler: 120"}
+    {
+        "caption": "Ruler:  40",
+        "command": "set_wrap",
+        "args":{
+            "width": 40
+        }
+    },
+    {
+        "caption": "Ruler:  60",
+        "command": "set_wrap",
+        "args":{
+            "width": 60
+        }
+    },
+
+    {
+        "caption": "Ruler:  70",
+        "command": "set_wrap",
+        "args":{
+            "width": 70
+        }
+    },    
+    {
+        "caption": "Ruler:  80",
+        "command": "set_wrap",
+        "args":{
+            "width": 80
+        }
+    },    
+    {
+        "caption": "Ruler: 100",
+        "command": "set_wrap",
+        "args":{
+            "width": 100
+        }
+    },          
+    {
+        "caption": "Ruler: 120",
+        "command": "set_wrap",
+        "args":{
+            "width": 120
+        }
+    },  
+
+    //{ "command": "set_setting", "args": {"setting": "wrap_width", "value": 60}, "caption":  "Ruler: 60"},
+    //{ "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption":  "Ruler: 80"},
+    //{ "command": "set_setting", "args": {"setting": "wrap_width", "value": 120}, "caption": "Ruler: 120"}
 ]
