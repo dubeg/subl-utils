@@ -62,10 +62,10 @@
             "save_as": true
         }
     }, 
-    //{
-    //    "caption": "Project+: Info",
-    //    "command": "project_info"
-    //}, 
+    {
+        "caption": "Project+: Info",
+        "command": "project_info"
+    }, 
 
     // Word wrap
     // ~~~~~~~~~~~~~~~~~  
