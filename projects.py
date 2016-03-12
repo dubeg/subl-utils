@@ -3,7 +3,17 @@ import sublime_plugin
 import os
 import json
 
-PROJECTS_REL_DIR = '\\User\\Projects'
+
+# ====================================================
+# Called when the API is ready to use.
+# ====================================================
+def plugin_loaded():
+	# Default dir
+	base_dir = sublime.packages_path()
+	rel_dir = "user\\projects"
+	dir = os.path.join(base_dir, rel_dir)
+	# ---
+	ProjectMgr.PROJECTS_DIR = dir
 
 # ====================================================
 # Project
@@ -15,7 +25,7 @@ class Project:
 	def __init__(self, name, path):
 		self.name = name
 		self.path = path
-		self.folders = set()
+		self.folders = list()
 		self.load()
 	# --------------------------------
 	# Exceptions:
@@ -29,9 +39,11 @@ class Project:
 		
 		# 2. Load folders from JSON
 		folderEntries = data[self.FOLDERS_KEY]
+
 		for folderEntry in folderEntries:
-			if self.PATH_KEY in folderEntry:
-				self.folders.add(folderEntry[self.PATH_KEY])
+			self.folders.append(folderEntry[self.PATH_KEY])
+		
+
 		return None
 	# --------------------------------
 
@@ -40,18 +52,22 @@ class Project:
 # ====================================================
 # Project Manager
 # ====================================================
-class ProjectMgr():
+class ProjectMgr:
 	# Static
 	# --------------------------------
+	PROJECTS_DIR = None
 	PROJECT_FILE_EXT = ".sublime-project"
 	# --------------------------------
 	@classmethod 
-	def get_projects(cls, project_dir):
+	def get_projects(cls):
+		project_dir = cls.PROJECTS_DIR
+		project_file_ext = cls.PROJECT_FILE_EXT
 		projects = list()
+
 		if os.path.exists(project_dir) and os.path.isdir(project_dir):
 			# Load names of project-files.
 			for filename in os.listdir(project_dir):
-				if filename.endswith(cls.PROJECT_FILE_EXT):
+				if filename.endswith(project_file_ext):
 					projectName = os.path.splitext(filename)[0]
 					path = os.path.join(project_dir, filename)
 					try:
@@ -64,13 +80,15 @@ class ProjectMgr():
 	# --------------------------------
 	@classmethod
 	def save_project(cls, name, jsonData):
-		path = os.path.join(cls.PROJECTS_DIR, name + cls.PROJECT_FILE_EXT)
+		project_dir = cls.PROJECTS_DIR
+		project_file_ext = cls.PROJECT_FILE_EXT
+
+		path = os.path.join(project_dir, name + project_file_ext)
 		
 		with open(path, 'w') as file:
 			json.dump(jsonData, file)
 
 		return None
-
 
 
 # ====================================================
@@ -98,10 +116,8 @@ class ProjectOpenCommand(sublime_plugin.WindowCommand):
 		except:
 			self.entries = []
 
-		project_dir = sublime.packages_path() + PROJECTS_REL_DIR
-
 		# Load entries (project names).
-		self.projects = ProjectMgr.get_projects(project_dir)
+		self.projects = ProjectMgr.get_projects()
 		self._load_entries(self.entries, self.projects)
 
 		# Prompt project selection.
@@ -174,14 +190,16 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 			self.window.show_input_panel(
 				"Enter Name of Project", # caption
 				"", # initial_text
-				self._on_done, # on_done(str)
+				self._on_save_as_input_done, # on_done(str)
 				None,# on_change(str)
 				None# on_cancel(str)
 			)
 	# --------------------------------
-	def _on_done(self, name):
+	def _on_save_as_input_done(self, name):
 		if name != "":
 			self.save(name)
+			self.window.project_name = name
+			self.window.active_view().set_status("project_name", "Project | " + name)
 		else:
 			print("No name of project entered.")
 	# --------------------------------
