@@ -4,6 +4,7 @@ import os
 import json
 
 
+
 # ====================================================
 # Called when the API is ready to use.
 # ====================================================
@@ -79,16 +80,29 @@ class ProjectMgr:
 		return projects
 	# --------------------------------
 	@classmethod
-	def save_project(cls, name, jsonData):
+	def _get_path_from_name(cls, name):
 		project_dir = cls.PROJECTS_DIR
 		project_file_ext = cls.PROJECT_FILE_EXT
-
-		path = os.path.join(project_dir, name + project_file_ext)
+		return os.path.join(project_dir, name + project_file_ext)
 		
+	# --------------------------------
+	@classmethod
+	def save_project(cls, name, jsonData):
+		path = cls._get_path_from_name(name)
 		with open(path, 'w') as file:
 			json.dump(jsonData, file)
 
 		return None
+	# --------------------------------
+	@classmethod
+	def remove_project(cls, name):
+		path = cls._get_path_from_name(name)
+		try:
+			os.remove(path)
+			return True
+		except OSError as e:
+			print( "Project file could not be delete: " + e )
+			return False
 
 
 # ====================================================
@@ -123,7 +137,7 @@ class ProjectOpenCommand(sublime_plugin.WindowCommand):
 		# Prompt project selection.
 		self.window.show_quick_panel(
 			self.entries, # Entries
-			self._on_entry_selected, # OnDone 
+			self._on_select_prompt_done, # OnDone 
 			sublime.MONOSPACE_FONT, # Flags
 			0, # SelectedIndex
 			None # OnHighlighted
@@ -138,7 +152,7 @@ class ProjectOpenCommand(sublime_plugin.WindowCommand):
 			self.entries.append(["None", "No .sublime-project files were found in 'Users/Projects'."])
 		return None
 	# --------------------------------
-	def _on_entry_selected(self, index):
+	def _on_select_prompt_done(self, index):
 		if(index >= 0):
 			entry = self.entries[index]
 			if entry[0] != "None":
@@ -188,26 +202,79 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 			self.save(name)
 		else:
 			self.window.show_input_panel(
-				"Enter Name of Project", # caption
+				"Enter name of Project", # caption
 				"", # initial_text
-				self._on_save_as_input_done, # on_done(str)
+				self._on_saveas_prompt_done, # on_done(str)
 				None,# on_change(str)
 				None# on_cancel(str)
 			)
 	# --------------------------------
-	def _on_save_as_input_done(self, name):
-		if name != "":
+	def _on_saveas_prompt_done(self, input):
+		if input != "":
+			name = input
 			self.save(name)
 			self.window.project_name = name
-			self.window.active_view().set_status("project_name", "Project | " + name)
-		else:
-			print("No name of project entered.")
+			self.window.active_view().set_status("project_name", "Project | {0}".format(name))
 	# --------------------------------
 	def save(self, name):
 		project_data = self.window.project_data()
 		ProjectMgr.save_project(name, project_data)
+		sublime.status_message("Project+: project saved as {0}.".format(name))
 	# --------------------------------
 
+
+# ====================================================
+# Command: Remove Project
+# ====================================================
+class ProjectRemoveCommand(sublime_plugin.WindowCommand):
+	def run(self):
+		# Init these properties 
+		# only once.
+		try:
+			self.entries.clear()
+		except:
+			self.entries = []
+
+		# Load entries (project names).
+		self.projects = ProjectMgr.get_projects()
+		self._load_entries(self.entries, self.projects)
+
+		# Prompt project selection.
+		self.window.show_quick_panel(
+			self.entries, # Entries
+			self._on_select_prompt_done, # OnDone 
+			sublime.MONOSPACE_FONT, # Flags
+			0, # SelectedIndex
+			None # OnHighlighted
+			)
+		return None
+	# --------------------------------
+	def _load_entries(self, entries, projects):
+		for project in projects:
+			self.entries.append([project.name, str(len(project.folders)) + " folders"])
+
+		if len(self.entries) < 1:
+			self.entries.append(["None", "No .sublime-project files were found in 'Users/Projects'."])
+		return None
+	# --------------------------------
+	def _on_select_prompt_done(self, index):
+		if(index >= 0):
+			entry = self.entries[index]
+			project_name = entry[0]
+			if project_name != "None":
+				if ProjectMgr.remove_project(project_name):
+					sublime.status_message("Project+: {0} was successfully removed.".format(project_name))
+				else:
+					sublime.status_message("Project+: error when trying to remove '{0}'.".format(project_name))
+
+		# Entry "None" was selected, or
+		# user cancelled the selection.
+		# Do no more.
+		return
+
+
+
+		
 
 
 # ====================================================

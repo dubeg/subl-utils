@@ -66,6 +66,10 @@
         "caption": "Project+: Info",
         "command": "project_info"
     }, 
+    {
+        "caption": "Project+: Remove",
+        "command": "project_remove"    
+    },
 
     // Word wrap
     // ~~~~~~~~~~~~~~~~~  
