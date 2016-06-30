@@ -50,7 +50,52 @@ class ViewUtil(object):
 		self.set_word_wrap(word_wrap)
 		self.set_wrap_width(width)
 		sublime.status_message(status)
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# Set Wrap At Cursor
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	def setWrapAtCursor(self):
+		print("~~~")
 
+		pointOfHighestCol = None
+		rowOfHighestCol = -1
+		highestCol = -1
+		for s in self.view.sel():
+			(row,col) =  self.view.rowcol(s.end())
+			if col > highestCol:
+				highestCol = col
+				rowOfHighestCol = row
+				pointOfHighestCol = s.end()
+
+		lineRegion = self.view.full_line(pointOfHighestCol)
+		lineContent = self.view.substr(lineRegion)
+ 	
+		# Get tab size.
+		settings = self.view.settings()
+		useTabStop = settings.get("use_tab_stops", False)
+		tabSize = settings.get("tab_size", 1)
+
+		# Count totals
+		total = 0
+		nextStop = tabSize
+		for i, char in enumerate(lineContent):
+			if i > (highestCol - 1):
+				break
+
+			if char == "\t":
+				total += nextStop
+			else:
+				total += 1
+
+			if (total % 4) == 0:
+				nextStop = tabSize
+			else:
+				nextStop -= 1
+		
+		# Print infos.
+		print( "Cursor.Y: " + str(rowOfHighestCol) )
+		print( "Cursor.X: " + str(total) )
+		# Set wrap width
+		self.setWrap(total)
 	# --------------
 	# Update Rulers
 	# --------------
@@ -83,4 +128,10 @@ class SetWrap(sublime_plugin.TextCommand):
 	def run(self, edit, width):		
 		viewUtil = ViewUtil(self.view);
 		viewUtil.setWrap(width);
+		return;
+
+class SetWrapAtCursor(sublime_plugin.TextCommand):
+	def run(self, edit):
+		viewUtil = ViewUtil(self.view);
+		viewUtil.setWrapAtCursor();
 		return;
