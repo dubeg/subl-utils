@@ -123,6 +123,10 @@
             "width": 120
         }
     },  
+    {
+        "caption": "Ruler here.",
+        "command": "set_wrap_at_cursor"
+    }, 
 
     //{ "command": "set_setting", "args": {"setting": "wrap_width", "value": 60}, "caption":  "Ruler: 60"},
     //{ "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption":  "Ruler: 80"},
