@@ -30,7 +30,7 @@ class ViewUtil(object):
 	def set_wrap_width(self, value):
 		self.settings.set("wrap_width", value);
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	# Set Wrap
+	# Set Wrap Width
 	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	def setWrap(self, width):
 		rulers = self.get_rulers()
@@ -45,6 +45,19 @@ class ViewUtil(object):
 			rulers = [];
 			word_wrap = False;
 			status = "Wrap: OFF"
+
+		self.set_rulers(rulers)
+		self.set_word_wrap(word_wrap)
+		self.set_wrap_width(width)
+		sublime.status_message(status)
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	# Set Wrap Auto
+	# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	def setWrapAuto(self):
+		rulers = []
+		word_wrap = True;
+		width = 0;
+		status = "Wrap: Auto"
 
 		self.set_rulers(rulers)
 		self.set_word_wrap(word_wrap)
@@ -123,11 +136,15 @@ class SetWrap(sublime_plugin.TextCommand):
 	def __init__(self, view):
 		self.view = view;
 		return;
-		#view.settings().add_on_change("wrap_width", on_wrapwidth_changed);
-
 	def run(self, edit, width):		
 		viewUtil = ViewUtil(self.view);
 		viewUtil.setWrap(width);
+		return;
+
+class SetWrapAuto(sublime_plugin.TextCommand):
+	def run(self, edit):		
+		viewUtil = ViewUtil(self.view);
+		viewUtil.setWrapAuto();
 		return;
 
 class SetWrapAtCursor(sublime_plugin.TextCommand):
