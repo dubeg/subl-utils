@@ -203,7 +203,7 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 		except AttributeError:
 			pass
 		if name == None or name == "":
-			sublime.status_message("Project: no project opened.")
+			sublime.status_message("Project: nothing opened.")
 		elif save_as == False:
 			self.save(name)
 		else:
@@ -216,16 +216,21 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 			)
 	# --------------------------------
 	def _on_saveas_prompt_done(self, input):
-		if input != "":
+		if input != None and input != "":
 			name = input
 			self.save(name)
 			self.window.project_name = name
 			self.window.active_view().set_status("project_name", "Project | {0}".format(name))
+		else:
+			sublime.status_message("Project: not saved; empty name.")
 	# --------------------------------
 	def save(self, name):
-		project_data = self.window.project_data()
-		ProjectMgr.save_project(name, project_data)
-		sublime.status_message("Project: project saved as {0}.".format(name))
+		if name != None and name != "":
+			project_data = self.window.project_data()
+			ProjectMgr.save_project(name, project_data)
+			sublime.status_message("Project: saved ({0}).".format(name))
+		else:
+			sublime.status_message("Project: not saved; empty name.")
 	# --------------------------------
 
 
