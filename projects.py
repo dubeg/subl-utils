@@ -202,9 +202,8 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 			name = self.window.project_name
 		except AttributeError:
 			pass
-		if name == None or name == "":
-			sublime.status_message("Project: nothing opened.")
-		elif save_as == False:
+
+		if (name != None and name != "") and save_as == False:
 			self.save(name)
 		else:
 			self.window.show_input_panel(
