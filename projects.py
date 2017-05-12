@@ -146,7 +146,12 @@ class ProjectOpenCommand(sublime_plugin.WindowCommand):
 	# --------------------------------
 	def _load_entries(self, entries, projects):
 		for project in projects:
-			self.entries.append([project.name, str(len(project.folders)) + " folders"])
+			projectEntries = [project.name]
+			projectEntries.append(next(iter(project.folders), "Empty"))
+			# The following doesn't work since show_quick_panel contains a bug which 
+			# make lists with different lengths to throw up an "index out of range" error.
+			# projectEntries.extend(project.folders)
+			self.entries.append(projectEntries)
 
 		if len(self.entries) < 1:
 			self.entries.append(["None", "No .sublime-project files were found in 'Users/Projects'."])
@@ -197,8 +202,9 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 			name = self.window.project_name
 		except AttributeError:
 			pass
-		
-		if name != None and save_as == False:
+		if name == None or name == "":
+			sublime.status_message("Project: no project opened.")
+		elif save_as == False:
 			self.save(name)
 		else:
 			self.window.show_input_panel(
@@ -219,7 +225,7 @@ class ProjectSaveCommand(sublime_plugin.WindowCommand):
 	def save(self, name):
 		project_data = self.window.project_data()
 		ProjectMgr.save_project(name, project_data)
-		sublime.status_message("Project+: project saved as {0}.".format(name))
+		sublime.status_message("Project: project saved as {0}.".format(name))
 	# --------------------------------
 
 
@@ -263,17 +269,24 @@ class ProjectRemoveCommand(sublime_plugin.WindowCommand):
 			project_name = entry[0]
 			if project_name != "None":
 				if ProjectMgr.remove_project(project_name):
-					sublime.status_message("Project+: {0} was successfully removed.".format(project_name))
+					sublime.status_message("Project: {0} was successfully removed.".format(project_name))
 				else:
-					sublime.status_message("Project+: error when trying to remove '{0}'.".format(project_name))
+					sublime.status_message("Project: error when trying to remove '{0}'.".format(project_name))
 
 		# Entry "None" was selected, or
 		# user cancelled the selection.
 		# Do no more.
 		return
 
-
-
+# ====================================================
+# Command: Close Project/Folders
+# ====================================================
+class ProjectCloseCommand(sublime_plugin.WindowCommand):
+	def run(self):
+		self.window.set_project_data(None)
+		self.window.project_name = ""
+		self.window.active_view().set_status("project_name", "")
+		return None
 		
 
 
@@ -287,4 +300,4 @@ class ProjectInfoCommand(sublime_plugin.WindowCommand):
 		projectData = self.window.project_data()
 		print(projectName)
 		print(projectData)
-		print("--------- End  ----------")
+		print("-------------------------")
