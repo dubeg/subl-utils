@@ -170,5 +170,12 @@
     {
         "caption": "Wrap: Auto",
         "command": "set_wrap_auto"
-    }
+    },
+    // 
+    // File Operations
+    //
+    {
+        "caption": "Rename file",
+        "command": "rename_file"
+    },
 ]

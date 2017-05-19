@@ -3,7 +3,7 @@
 [
 	// New entry
 	//{ "caption": "New File", "command": "advanced_new_file_new", "args": {} },
-	{ "caption": "New File at", "command": "advanced_new_file_new_at", "args": {"dirs": []} },
+	//{ "caption": "New File at", "command": "advanced_new_file_new_at", "args": {"dirs": []} },
 
 	// { "caption": "Rename…", "command": "rename_path", "args": {"paths": []} },
 	// { "caption": "Delete File", "command": "delete_file", "args": {"files": []} },
@@ -12,7 +12,7 @@
 	// // New entry
 	 { "caption": "-", "id": "OpenBrowser" },
 	 {
-	 	"caption": "Open Explorer", "command": "open_folder", "args": {"paths": []}
+	 	"caption": "Open File Manager", "command": "open_folder", "args": {"paths": []}
 	 },
 	// //{"caption": "Open App", "command": "open_browser", "args": {"paths":[]}},
 
