@@ -6,9 +6,10 @@ import subprocess
 
 
 class OpenInFileManager(sublime_plugin.WindowCommand):
-    def run(self, dir):  
+    def run(self, path):  
          
-        path = dir.replace("$packages", sublime.packages_path())
+        variables = self.window.extract_variables()
+        path = sublime.expand_variables(path, variables)
         path = path.replace('/', '\\')
 
         platLinux = 'linux2' # linux2/3

@@ -104,6 +104,25 @@ class ProjectMgr:
 			print( "Project file could not be delete: " + e )
 			return False
 
+class AddFolderCommand(sublime_plugin.WindowCommand):
+	def run(self, path):
+		variables = self.window.extract_variables()
+		path = sublime.expand_variables(path, variables)
+		path = path.replace('/', '\\')
+
+		project = self.window.project_data()
+		if project is None:
+			project = { 'folders' : [] }
+		
+		folderAlreadyAdded = False
+		for folder in project['folders']:
+			if folder['path'] == path:
+				folderAlreadyAdded = True
+				break
+
+		if folderAlreadyAdded == False:
+			project['folders'].append({ 'path': path })
+			self.window.set_project_data(project)
 
 # ====================================================
 # Command: Close Project
