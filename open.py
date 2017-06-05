@@ -4,10 +4,11 @@ import os
 import sys
 import subprocess
 
-
+# --------------------------------
+# Open path in FileManager
+# --------------------------------
 class OpenInFileManager(sublime_plugin.WindowCommand):
     def run(self, path):  
-         
         variables = self.window.extract_variables()
         path = sublime.expand_variables(path, variables)
         path = path.replace('/', '\\')
@@ -51,7 +52,33 @@ class OpenInFileManager(sublime_plugin.WindowCommand):
         # self.window.run_command("open_dir",{"dir": os.path.dirname(path)})
         # os.startfile(path)
 
+# --------------------------------
+# Add folder to current window.
+# --------------------------------
+class AddFolderCommand(sublime_plugin.WindowCommand):
+    def run(self, path):
+        variables = self.window.extract_variables()
+        path = sublime.expand_variables(path, variables)
+        path = os.path.expandvars(path)
+        path = path.replace('/', '\\')
 
+        project = self.window.project_data()
+        if project is None:
+            project = { 'folders' : [] }
+        
+        folderAlreadyAdded = False
+        for folder in project['folders']:
+            if folder['path'] == path:
+                folderAlreadyAdded = True
+                break
+
+        if folderAlreadyAdded == False:
+            project['folders'].append({ 'path': path })
+            self.window.set_project_data(project)
+
+# --------------------------------
+# Not sure what it does.
+# --------------------------------
 class OpenFolder(sublime_plugin.WindowCommand):
     def run(self, paths):
         #settings = sublime.load_settings("OpenFolder.sublime-settings")

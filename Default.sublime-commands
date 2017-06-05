@@ -21,6 +21,11 @@
         "command" : "add_folder",
         "args": {"path" : "$packages"}
     },
+    {
+        "caption" : "Open Downloads/",
+        "command" : "add_folder",
+        "args": {"path" : "%USERPROFILE%/Downloads"}
+    },
     // Open URLs
     { 
         "caption": "Open Documentation",
