@@ -17,6 +17,21 @@
     },    
     // Open folders
     {
+        "caption" : "Open Theme - DC/",
+        "command" : "add_folder",
+        "args": {"path" : "$packages/Theme - DC"}
+    },
+    {
+        "caption" : "Open Utils/",
+        "command" : "add_folder",
+        "args": {"path" : "$packages/Utils"}
+    },
+    {
+        "caption" : "Open User/",
+        "command" : "add_folder",
+        "args": {"path" : "$packages/User"}
+    },
+    {
         "caption" : "Open Packages/",
         "command" : "add_folder",
         "args": {"path" : "$packages"}

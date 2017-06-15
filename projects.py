@@ -104,17 +104,6 @@ class ProjectMgr:
 			print( "Project file could not be delete: " + e )
 			return False
 
-# ====================================================
-# Command: Close Project
-# ====================================================
-class ProjectCloseCommand(sublime_plugin.WindowCommand):
-	# --------------------------------
-	def run(self):
-		self.window.run_command("close_project")   # Close folders
-		self.window.run_command("close_workspace") # Close workspace (file history, actions history, etc.)
-		# self.window.run_command("close_all")	   # Close files
-		return
-
 
 # ====================================================
 # Command: Open Project
@@ -186,7 +175,9 @@ class ProjectOpenCommand(sublime_plugin.WindowCommand):
 		projectData['folders'] = folderEntries
 		self.window.set_project_data(projectData)
 		self.window.project_name = project.name
-		self.window.active_view().set_status("project_name", "Project | " + project.name)
+		view = sublime.active_window().active_view()
+		view.set_status("project_name", "Project | " + project.name)
+		view.settings().set('default_dir', project.folders[0])
 		return None
 
 
@@ -289,6 +280,9 @@ class ProjectCloseCommand(sublime_plugin.WindowCommand):
 		self.window.set_project_data(None)
 		self.window.project_name = ""
 		self.window.active_view().set_status("project_name", "")
+		view = self.window.active_view()
+		if view != None:
+			view.settings().set('default_dir', '%USERPROFILE%')
 		return None
 		
 
