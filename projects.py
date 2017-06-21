@@ -131,7 +131,7 @@ class ProjectManager:
 	def prompt_remove(self):
 		self.prompt(self.on_prompt_remove_done)
 
-	def prompt_save(self):
+	def prompt_create(self):
 		folders = self.window.folders()
 		if len(folders) > 0:
 			promptLabel = "Project Name"
@@ -139,10 +139,12 @@ class ProjectManager:
 			self.window.show_input_panel(
 				promptLabel, 
 				promptDefaultValue,
-				self.on_prompt_save_done,
+				self.on_prompt_create_done,
 				None, # on_change,
 				None # on_cancel
 				)
+		else:
+			sublime.status_message("Project: there are no folders to save.")
 	# ----------------------
 
 	def open_project(self, project):
@@ -187,7 +189,7 @@ class ProjectManager:
 			ProjectUtils.save_project(project.path, projectData)
 			sublime.status_message("Project: {0} saved.".format(project.name))
 		else:
-			self.prompt_save()
+			self.prompt_create()
 	# ----------------------
 	def on_prompt_open_done(self, index):
 		projects = self.projects
@@ -210,7 +212,7 @@ class ProjectManager:
 			else:
 				sublime.status_message("Project: error when removing '{0}'.".format(project.name))
 
-	def on_prompt_save_done(self, projectName):
+	def on_prompt_create_done(self, projectName):
 		self.new_project(projectName)
 		sublime.status_message("Project: {0} created.".format(projectName))
 
