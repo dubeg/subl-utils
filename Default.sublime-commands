@@ -1,43 +1,43 @@
 [
     // View in Explorer
     {
-        "caption": "View Packages/",
+        "caption": "Open Packages/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages"}
     },
     {
-        "caption": "View Users/",
+        "caption": "Open Users/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/User"}
     },
     {
-        "caption": "View Utils/",
+        "caption": "Open Utils/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/Utils"}
     },    
-    // Open folders
+    // Append folders in Window
     {
-        "caption" : "Open Theme - DC/",
+        "caption" : "Append Theme - DC/",
         "command" : "add_folder",
         "args": {"path" : "$packages/Theme - DC"}
     },
     {
-        "caption" : "Open Utils/",
+        "caption" : "Append Utils/",
         "command" : "add_folder",
         "args": {"path" : "$packages/Utils"}
     },
     {
-        "caption" : "Open User/",
+        "caption" : "Append User/",
         "command" : "add_folder",
         "args": {"path" : "$packages/User"}
     },
     {
-        "caption" : "Open Packages/",
+        "caption" : "Append Packages/",
         "command" : "add_folder",
         "args": {"path" : "$packages"}
     },
     {
-        "caption" : "Open Downloads/",
+        "caption" : "Append Downloads/",
         "command" : "add_folder",
         "args": {"path" : "%USERPROFILE%/Downloads"}
     },
@@ -46,6 +46,11 @@
         "caption": "Open Documentation",
         "command": "open_url",
         "args": {"url": "http://www.sublimetext.com/docs/3/"}
+    },
+    {
+        "caption": "Open API Reference",
+        "command": "open_url",
+        "args": {"url": "http://www.sublimetext.com/docs/3/api_reference.html"}
     },
     // Open widgets
     { 
@@ -67,6 +72,11 @@
     },
     // Open files
     {
+        "caption": "Open Sublime.py",
+        "command": "open_file", 
+        "args": {"file": "$packages/../../sublime.py"}
+    }, 
+    {
         "caption": "Open Preferences",
         "command": "open_file", 
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
@@ -76,6 +86,14 @@
         "command": "open_file", 
         "args": {"file": "$packages/Scheme - VSDC/VSDC.tmTheme"}
     }, 
+    {
+        "caption": "DC: Open DC_3",
+        "command": "open_file", 
+        "args": 
+        {
+            "file": "${packages}/Theme - DC/DC_3.sublime-theme"
+        }
+    },    
     // Project Management
     {
         "caption": "Project: List",

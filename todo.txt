@@ -1,0 +1,7 @@
+# Projects
+- Project: Reload
+- Project: Save As
+- Project: Rename
+
+# Sidebar
+- New file => Prompt filename and create file.
