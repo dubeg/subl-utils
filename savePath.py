@@ -23,10 +23,10 @@ def plugin_loaded():
 # -------------------------------------------------------
 # On FileLoaded, SaveDirectory = FileDirectory
 # -------------------------------------------------------
-class LoadFileListener(sublime_plugin.EventListener):
-	def on_load(self, view):
-		dir = os.path.dirname(view.file_name())
-		view.settings().set('default_dir', dir)
+# class LoadFileListener(sublime_plugin.EventListener):
+# 	def on_load(self, view):
+# 		dir = os.path.dirname(view.file_name())
+# 		view.settings().set('default_dir', dir)
 
 # -------------------------------------------------------
 # On FileSaved, SaveDirectory = FileDirectory

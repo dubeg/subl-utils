@@ -85,20 +85,28 @@
         "caption": "Project: Save",
         "command": "project_save"
     },  
-    {
-        "caption": "Project: Save As",
-        "command": "project_save",
-        "args": {
-            "save_as": true
-        }
-    }, 
+    // {
+    //     "caption": "Project: Save As",
+    //     "command": "project_save",
+    //     "args": {
+    //         "save_as": true
+    //     }
+    // }, 
     {
         "caption": "Project: Remove",
         "command": "project_remove"    
     },
     {
+        "caption": "Project: Remove folder",
+        "command": "project_remove_folder"    
+    },
+    {
         "caption": "Project: Close",
         "command": "project_close"    
+    },
+    {
+        "caption": "Project: Info",
+        "command": "project_info"    
     },
     // Wrap
     {
