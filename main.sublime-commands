@@ -22,22 +22,27 @@
     },  
     // Append folders in Window
     {
-        "caption" : "Append User/",
+        "caption" : "Add User/",
         "command" : "add_folder",
         "args": {"path" : "$packages/User"}
     },
     {
-        "caption" : "Append Packages/",
+        "caption" : "Add from User/",
+        "command" : "add_folder_prompt",
+        "args": {"path" : "$packages/User"}
+    },
+    {
+        "caption" : "Add Packages/",
+        "command" : "add_folder",
+        "args": {"path" : "$packages"}
+    },
+    {
+        "caption" : "Add from Packages/",
         "command" : "add_folder_prompt",
         "args": {"path" : "$packages"}
     },
-    // {
-    //     "caption" : "Append Packages/",
-    //     "command" : "add_folder",
-    //     "args": {"path" : "$packages"}
-    // },
     {
-        "caption" : "Append Downloads/",
+        "caption" : "Add Downloads/",
         "command" : "add_folder",
         "args": {"path" : "%USERPROFILE%/Downloads"}
     },
