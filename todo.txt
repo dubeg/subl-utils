@@ -1,7 +1,9 @@
 # Projects
-- Project: Reload
-- Project: Save As
-- Project: Rename
+- Project: Reload  (reload folders of project)
+- Project: Save As (save project under a different name while keeping existing project)
+- Project: Rename (rename current project)
+- Project: Append (add folders of a project to the current window)
+- What to do with BuildSystem? Read and extract while project is opened? Implemented custom build system?
 
 # Sidebar
 - New file => Prompt filename and create file.

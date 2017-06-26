@@ -15,17 +15,12 @@
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/Utils"}
     },    
+    {
+        "caption": "Open SublimeText/",
+        "command": "open_in_file_manager", 
+        "args": {"path": "$packages/../../"}
+    },  
     // Append folders in Window
-    {
-        "caption" : "Append Theme - DC/",
-        "command" : "add_folder",
-        "args": {"path" : "$packages/Theme - DC"}
-    },
-    {
-        "caption" : "Append Utils/",
-        "command" : "add_folder",
-        "args": {"path" : "$packages/Utils"}
-    },
     {
         "caption" : "Append User/",
         "command" : "add_folder",
@@ -33,9 +28,14 @@
     },
     {
         "caption" : "Append Packages/",
-        "command" : "add_folder",
+        "command" : "add_folder_prompt",
         "args": {"path" : "$packages"}
     },
+    // {
+    //     "caption" : "Append Packages/",
+    //     "command" : "add_folder",
+    //     "args": {"path" : "$packages"}
+    // },
     {
         "caption" : "Append Downloads/",
         "command" : "add_folder",

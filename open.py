@@ -68,6 +68,7 @@ class AddFolderCommand(sublime_plugin.WindowCommand):
         
         folderAlreadyAdded = False
         for folder in project['folders']:
+            print(folder)
             if folder['path'] == path:
                 folderAlreadyAdded = True
                 break
@@ -77,7 +78,36 @@ class AddFolderCommand(sublime_plugin.WindowCommand):
             self.window.set_project_data(project)
 
 # --------------------------------
-# Not sure what it does.
+# Add a folder from folders in specified location to current window.
+# --------------------------------
+class AddFolderPromptCommand(sublime_plugin.WindowCommand):
+    def run(self, path):
+        variables = self.window.extract_variables()
+        path = sublime.expand_variables(path, variables)
+        path = os.path.expandvars(path)
+        path = path.replace('/', '\\')
+
+        indexOfDirs = 1
+        dirnames = next(os.walk(path))[indexOfDirs]
+        prompt_items = []
+        for dirname in dirnames:
+            dirpath = os.path.join(path, dirname)
+            prompt_items.append([dirname, dirpath])
+        if len(prompt_items) < 1:
+            self.prompt_hasDirs = False
+            prompt_items.append(["No directories found in {}".format(path), ""])
+        else:
+            self.prompt_hasDirs = True
+        self.prompt_items = prompt_items
+        self.window.show_quick_panel(prompt_items, self.prompt_done, 0, 0, None)
+
+    def prompt_done(self, selectedIndex):
+        if selectedIndex >= 0 and self.prompt_hasDirs:
+            path = self.prompt_items[selectedIndex][1]
+            self.window.run_command("add_folder", {"path" : path})
+
+# --------------------------------
+# Open containing folder in FileManager
 # --------------------------------
 class OpenFolder(sublime_plugin.WindowCommand):
     def run(self, paths):
