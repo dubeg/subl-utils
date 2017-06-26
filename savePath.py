@@ -5,11 +5,11 @@ import os
 # -------------------------------------------------------
 # On PluginLoaded, SaveDirectory = UserProfile
 # -------------------------------------------------------
-def plugin_loaded():
-	dir = '%USERPROFILE%'
-	view = sublime.active_window().active_view()
-	if view != None:
-		view.settings().set('default_dir', dir)
+# def plugin_loaded():
+# 	dir = '%USERPROFILE%'
+# 	view = sublime.active_window().active_view()
+# 	if view != None:
+# 		view.settings().set('default_dir', dir)
 
 # -------------------------------------------------------
 # On NewBuffer, SaveDirectory = OpenedFolder

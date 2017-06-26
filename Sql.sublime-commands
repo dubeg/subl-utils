@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Execute Query",
+        "command": "execute_query"
+    },
+]

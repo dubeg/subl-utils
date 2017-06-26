@@ -12,7 +12,7 @@
 	// // New entry
 	 { "caption": "-", "id": "OpenBrowser" },
 	 {
-	 	"caption": "Open File Manager", "command": "open_folder", "args": {"paths": []}
+	 	"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
 	 },
 	// //{"caption": "Open App", "command": "open_browser", "args": {"paths":[]}},
 
