@@ -1,48 +1,48 @@
 [
     // View in Explorer
     {
-        "caption": "Open Packages/",
+        "caption": "Explorer: Packages/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages"}
     },
     {
-        "caption": "Open Users/",
+        "caption": "Explorer: Users/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/User"}
     },
     {
-        "caption": "Open Utils/",
+        "caption": "Explorer: Utils/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/Utils"}
     },    
     {
-        "caption": "Open SublimeText/",
+        "caption": "Explorer: SublimeText/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/../../"}
     },  
-    // Append folders in Window
+    // Open folders in current window
     {
-        "caption" : "Add User/",
+        "caption" : "Open User/",
         "command" : "add_folder",
         "args": {"path" : "$packages/User"}
     },
     {
-        "caption" : "Add from User/",
+        "caption" : "Open from User/",
         "command" : "add_folder_prompt",
         "args": {"path" : "$packages/User"}
     },
     {
-        "caption" : "Add Packages/",
+        "caption" : "Open Packages/",
         "command" : "add_folder",
         "args": {"path" : "$packages"}
     },
     {
-        "caption" : "Add from Packages/",
+        "caption" : "Open from Packages/",
         "command" : "add_folder_prompt",
         "args": {"path" : "$packages"}
     },
     {
-        "caption" : "Add Downloads/",
+        "caption" : "Open Downloads/",
         "command" : "add_folder",
         "args": {"path" : "%USERPROFILE%/Downloads"}
     },
@@ -194,5 +194,9 @@
     {
         "caption": "Rename file",
         "command": "rename_file"
+    },
+    {
+        "caption": "Pop file",
+        "command": "pop_out_file",
     },
 ]
