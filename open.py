@@ -65,6 +65,12 @@ class AddFolderCommand(sublime_plugin.WindowCommand):
         project = self.window.project_data()
         if project is None:
             project = { 'folders' : [] }
+        else:
+            # If user removes last folder by right-click in sidebar,
+            # then the key 'folders' is removed from the dictionary.
+            # Odd, but heh, here's a fix.
+            if 'folders' not in project:
+                project['folders'] = []
         
         folderAlreadyAdded = False
         for folder in project['folders']:
