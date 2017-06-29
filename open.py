@@ -85,6 +85,9 @@ class AddFolderCommand(sublime_plugin.WindowCommand):
 
 # --------------------------------
 # Add a folder from folders in specified location to current window.
+# Note: 
+# - rename to OpenFromPrompt.
+# - able to open folder OR file in current window.
 # --------------------------------
 class AddFolderPromptCommand(sublime_plugin.WindowCommand):
     def run(self, path):

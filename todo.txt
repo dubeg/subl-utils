@@ -8,3 +8,6 @@
 
 # Sidebar
 - New file => Prompt filename and create file.
+
+# Open
+- OpenFromPrompt: open file or folder in current window from CmdPalette prompt.
