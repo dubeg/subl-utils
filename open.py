@@ -74,7 +74,7 @@ class AddFolderCommand(sublime_plugin.WindowCommand):
         
         folderAlreadyAdded = False
         for folder in project['folders']:
-            print(folder)
+            # print(folder)
             if folder['path'] == path:
                 folderAlreadyAdded = True
                 break

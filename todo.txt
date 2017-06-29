@@ -11,3 +11,4 @@
 
 # Open
 - OpenFromPrompt: open file or folder in current window from CmdPalette prompt.
+- ScopeTo: select sub folder (from root folder in current window) and close all root folders and open the sub folder as root.
