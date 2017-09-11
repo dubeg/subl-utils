@@ -183,8 +183,8 @@ class ProjectManager:
 		self.window.active_project = Project.load(path)
 
 	def save_project(self):
-		if hasattr(self.window, 'active_project'):
-			project = self.window.active_project
+		project = getattr(self.window, 'active_project', None)
+		if project is not None:
 			projectData = self.window.project_data()
 			ProjectUtils.save_project(project.path, projectData)
 			sublime.status_message("Project: {0} saved.".format(project.name))
