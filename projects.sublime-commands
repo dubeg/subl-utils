@@ -1,0 +1,37 @@
+[
+    // ------------------------------
+    // Project Management
+    // ------------------------------
+    {
+        "caption": "Project: List",
+        "command": "project_open"
+    },
+    {
+        "caption": "Project: Save",
+        "command": "project_save"
+    },
+    {
+        "caption": "Project: Scope to",
+        "command": "project_root"
+    },
+    {
+        "caption": "Project: Remove",
+        "command": "project_remove"    
+    },
+    {
+        "caption": "Project: Remove folder",
+        "command": "project_remove_folder"    
+    },
+    {
+        "caption": "Project: Close",
+        "command": "project_close"    
+    },
+    {
+        "caption": "Project: Open from project",
+        "command": "project_open_from_project"
+    },
+    // {
+    //     "caption": "Project: Info",
+    //     "command": "project_info"    
+    // }
+]

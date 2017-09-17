@@ -100,6 +100,9 @@ class ProjectUtils:
 # Project Manager View
 # ====================================================
 class ProjectManager:
+    SELECT_FILE_ONLY = 1
+    SELECT_DIR_ONLY = 2
+    SELECT_BOTH = 3
 
     def __init__(self, window):
         self.window = window
@@ -109,19 +112,23 @@ class ProjectManager:
     # Prompt: select a folder from the folders
     # opened in the sidebar.
     # ----------------------------------------
-    def prompt_select_folder(self, on_prompt_done):
+    def prompt_select_folder(self, rootFolders, selectType, on_prompt_done):
         promptItems = []
-        folders = self.window.folders()
 
-        folderCount = len(folders)
+        folderCount = len(rootFolders)
         if folderCount < 1: 
             return
 
         # if folderCount < 2:
-        rootPath = folders[0]
+        rootPath = rootFolders[0]
         folders = []
-        for path in os.listdir(rootPath):
-            folders.append(os.path.join(rootPath, path))
+        for name in os.listdir(rootPath):
+            path = os.path.join(rootPath, name)
+            if selectType == self.SELECT_DIR_ONLY and not os.path.isdir(path):
+                continue
+            if selectType == self.SELECT_FILE_ONLY and not os.path.isfile(path):
+                continue
+            folders.append(path)
         # else:
         # Prompt to select one of the top folders,
         # then continue as we do here.
@@ -174,11 +181,39 @@ class ProjectManager:
             )
 
     # ----------------------------------------
+    # Open a folder from a project in the list
+    # of saved projects.
+    # ----------------------------------------
+    def prompt_open_from_project(self):
+        self.prompt_select_project(self.prompt_open_from_project_select_project_done)
+
+    def prompt_open_from_project_select_project_done(self, index):
+        projects = self.projects
+        if (index >= 0 
+            and projects != None
+            and len(projects) > 0):
+            project = projects[index]
+            self.prompt_select_folder(project.folders, self.SELECT_DIR_ONLY, self.prompt_open_from_project_select_folder_done)
+        return
+
+    def prompt_open_from_project_select_folder_done(self, index):
+        if index >= 0:
+            item = self.promptItems[index]
+            self.open_project_from_path(item[1])
+
+
+    # ----------------------------------------
     # Set the root folder in the sidebar
     # by selecting an opened folder.
     # ----------------------------------------
     def prompt_root_folder(self):
-        self.prompt_select_folder(self.on_prompt_root_done)
+        folders = self.window.folders()
+        self.prompt_select_folder(folders, self.SELECT_DIR_ONLY, self.on_prompt_root_done)
+
+    def on_prompt_root_done(self, index):
+        if index >= 0:
+            item = self.promptItems[index]
+            self.open_project_from_path(item[1])
 
     # ----------------------------------------
     # Open a project by selecting one from the
@@ -187,12 +222,37 @@ class ProjectManager:
     def prompt_open(self):
         self.prompt_select_project(self.on_prompt_open_done)
 
+    def on_prompt_open_done(self, index):
+        projects = self.projects
+        if (index >= 0 
+            and projects != None
+            and len(projects) > 0):
+            project = projects[index]
+            print("Loading project " + project.name)
+            self.open_project(project)
+            return
+        # Entry "None" was selected, or
+        # user cancelled the selection.
+        # Do no more.
+        return
+
     # ----------------------------------------
     # Remove a saved project by selecting one
     # from the list of saved projects.
     # ----------------------------------------
     def prompt_remove(self):
         self.prompt_select_project(self.on_prompt_remove_done)
+
+    def on_prompt_remove_done(self, index):
+        projects = self.projects
+        if (index >= 0
+            and projects != None 
+            and len(projects) > 0):
+            project = projects[index]
+            if ProjectUtils.remove_project(project.path):
+                sublime.status_message("Project: {0} removed.".format(project.name))
+            else:
+                sublime.status_message("Project: error when removing '{0}'.".format(project.name))
 
     # ----------------------------------------
     # Create a project including the opened folders
@@ -213,36 +273,6 @@ class ProjectManager:
         else:
             sublime.status_message("Project: there are no folders to save.")
 
-    # ----------------------------------------
-    def on_prompt_root_done(self, index):
-        if index >= 0:
-            item = self.promptItems[index]
-            self.open_project_from_path(item[1])
-
-    # ----------------------------------------
-    def on_prompt_open_done(self, index):
-        projects = self.projects
-        if (index >= 0):
-            if len(projects) > 0:
-                project = projects[index]
-                print("Loading project " + project.name)
-                self.open_project(project)
-                return
-        # Entry "None" was selected, or
-        # user cancelled the selection.
-        # Do no more.
-        return
-
-    # ----------------------------------------
-    def on_prompt_remove_done(self, index):
-        if self.projects != None and len(self.projects) > 0:
-            project = self.projects[index]
-            if ProjectUtils.remove_project(project.path):
-                sublime.status_message("Project: {0} removed.".format(project.name))
-            else:
-                sublime.status_message("Project: error when removing '{0}'.".format(project.name))
-    
-    # ----------------------------------------
     def on_prompt_create_done(self, projectName):
         self.new_project(projectName)
         sublime.status_message("Project: {0} created.".format(projectName))
@@ -309,6 +339,15 @@ class ProjectManager:
 # ====================================================
 # Commands
 # ====================================================
+
+# ----------------------------------------
+# Palette command:
+# Open as root a folder from a project in the list
+# of saved projects.
+# ----------------------------------------
+class ProjectOpenFromProjectCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        ProjectManager(self.window).prompt_open_from_project()
 
 # ----------------------------------------
 # SideBar directory command:

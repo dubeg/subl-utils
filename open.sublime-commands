@@ -1,0 +1,53 @@
+[
+    // View in Explorer
+    {
+        "caption": "Explorer: Packages/",
+        "command": "open_in_file_manager", 
+        "args": {"path": "$packages"}
+    },
+    {
+        "caption": "Explorer: Users/",
+        "command": "open_in_file_manager", 
+        "args": {"path": "$packages/User"}
+    },   
+    {
+        "caption": "Explorer: SublimeText/",
+        "command": "open_in_file_manager", 
+        "args": {"path": "$packages/../../"}
+    },
+    // Open URLs
+    { 
+        "caption": "Open Documentation",
+        "command": "open_url",
+        "args": {"url": "http://www.sublimetext.com/docs/3/"}
+    },
+    {
+        "caption": "Open API Reference",
+        "command": "open_url",
+        "args": {"url": "http://www.sublimetext.com/docs/3/api_reference.html"}
+    },
+    // Open widgets
+    { 
+        "caption": "Open Changelog",
+        "command": "show_changelog"
+    },
+    { 
+        "caption": "Open About",
+        "command": "show_about_window"
+    },
+    // Open Prompts   
+    {
+        "caption": "Open Folder...",
+        "command": "prompt_open_folder"
+    },
+    {
+        "caption": "Open File...",
+        "command": "prompt_open_file"
+    },
+    // Open files
+    {
+        "caption": "Open Preferences",
+        "command": "open_file", 
+        "args": {"file": "$packages/User/Preferences.sublime-settings"}
+    }
+]

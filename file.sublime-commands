@@ -1,0 +1,13 @@
+[
+    // ------------------------------
+    // File Operations
+    // ------------------------------
+    {
+        "caption": "Rename file",
+        "command": "rename_file"
+    },
+    {
+        "caption": "Pop file",
+        "command": "pop_out_file",
+    }
+]
