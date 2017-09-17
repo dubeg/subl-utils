@@ -4,11 +4,16 @@
 - Project: Rename (rename current project)
 - Project: Append (add all folders of another project to currently opened)
 - Project: Remove folder (remove a folder from currently opened and save)
-- What to do with BuildSystem? Read and extract while project is opened? Implemented custom build system?
+- OpenFromPrompt
+	+ Open [file or folder] from one of the top folders of a project from the list of saved projects.
+	+ Ex: Project A
+		- Folder 1
+			- Folder X
+			- Folder Z
+		- Folder 2
+			- Folder Y
+			- Folder W
+		- Select Folder 1 or 2, then the sub folder/file to open.
 
 # Sidebar
-- New file => Prompt filename and create file.
-
-# Open
-- OpenFromPrompt: open file or folder in current window from CmdPalette prompt.
-- ScopeTo: select sub folder (from root folder in current window) and close all root folders and open the sub folder as root.
+- New file: Prompt filename and create file.
