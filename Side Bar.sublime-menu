@@ -1,25 +1,11 @@
-
-
 [
-	// New entry
-	//{ "caption": "New File", "command": "advanced_new_file_new", "args": {} },
-	//{ "caption": "New File at", "command": "advanced_new_file_new_at", "args": {"dirs": []} },
-
-	// { "caption": "Rename…", "command": "rename_path", "args": {"paths": []} },
-	// { "caption": "Delete File", "command": "delete_file", "args": {"files": []} },
-	
-
-	// // New entry
-	 { "caption": "-", "id": "OpenBrowser" },
+	{ 
+	 	"caption": "-", "id": "OpenBrowser" 
+	 },
 	 {
 	 	"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
 	 },
-	// //{"caption": "Open App", "command": "open_browser", "args": {"paths":[]}},
-
-	// //{ "caption": "Open Containing Folder…", "command": "open_containing_folder", "args": {"files": []} },
-	// { "caption": "-", "id": "folder_commands" },
-	// { "caption": "New Folder…", "command": "new_folder", "args": {"dirs": []} },
-	// { "caption": "Delete Folder", "command": "delete_folder", "args": {"dirs": []} },
-	// { "caption": "Find in Folder…", "command": "find_in_folder", "args": {"dirs": []} },
-	// { "caption": "-", "id": "end" }
+	 {
+	 	"caption": "Open As Root", "command": "project_open_from_path", "args": {"paths": []}
+	 }
 ]
