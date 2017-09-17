@@ -120,17 +120,11 @@ class AddFolderPromptCommand(sublime_plugin.WindowCommand):
 # --------------------------------
 class OpenFolder(sublime_plugin.WindowCommand):
     def run(self, paths):
-        #settings = sublime.load_settings("OpenFolder.sublime-settings")
-        #file_manager = settings.get("file_manager", "xdg-open '{0}'")
-
         for path in paths:
-            #if os.path.isdir(path):
-            #    call(file_manager.format(path), shell=True)
-            #else:
-                self.window.run_command(
-                    "open_dir",
-                    {"dir": os.path.dirname(path), "file": os.path.basename(path)}
-                )
+            self.window.run_command(
+                "open_dir",
+                {"dir": os.path.dirname(path), "file": os.path.basename(path)}
+            )
 
     def description(self, paths):
         settings = sublime.load_settings("OpenFolder.sublime-settings")
