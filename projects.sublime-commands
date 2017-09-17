@@ -11,7 +11,7 @@
         "command": "project_save"
     },
     {
-        "caption": "Project: Scope to",
+        "caption": "Project: Scope To",
         "command": "project_root"
     },
     {

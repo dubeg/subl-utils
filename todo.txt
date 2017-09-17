@@ -1,10 +1,12 @@
 # Projects
-- Project: Reload  (reload folders of project)
-- Project: Save As (save project under a different name while keeping existing project)
-- Project: Rename (rename current project)
-- Project: Append (add all folders of another project to currently opened)
-- Project: Remove folder (remove a folder from currently opened and save)
-- OpenFromPrompt
+[ ] Project: Reload
+[ ] Project: Save As
+[ ] Project: Rename 
+[ ] Project: Remove folder 
+[x] Project: Scope To
+[ ] Project: Append
+	- Add all folders of another project to currently opened.
+[x] Project: Open From Project
 	+ Open [file or folder] from one of the top folders of a project from the list of saved projects.
 	+ Ex: Project A
 		- Folder 1
@@ -16,4 +18,5 @@
 		- Select Folder 1 or 2, then the sub folder/file to open.
 
 # Sidebar
-- New file: Prompt filename and create file.
+[ ] New file: Prompt filename and create file.
+[x] ScopeTo: set selected folder as root (all other folders are closed).

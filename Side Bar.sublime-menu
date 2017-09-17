@@ -1,11 +1,11 @@
 [
-	{ 
-	 	"caption": "-", "id": "OpenBrowser" 
-	 },
-	 {
-	 	"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
-	 },
-	 {
-	 	"caption": "Open as Root", "command": "project_open_from_path", "args": {"paths": []}
-	 }
+	{
+		"caption": "-", "id": "OpenBrowser" 
+	},
+	{
+		"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
+	},
+	{
+		"caption": "Scope To", "command": "project_open_from_path", "args": {"paths": []}
+	}
 ]
