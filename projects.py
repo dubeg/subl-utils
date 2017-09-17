@@ -105,7 +105,52 @@ class ProjectManager:
         self.window = window
         self.projects = ProjectUtils.get_projects()
 
-    def prompt(self, on_prompt_done):
+    # ----------------------------------------
+    # Prompt: select a folder from the folders
+    # opened in the sidebar.
+    # ----------------------------------------
+    def prompt_select_folder(self, on_prompt_done):
+        promptItems = []
+        folders = self.window.folders()
+
+        folderCount = len(folders)
+        if folderCount < 1: 
+            return
+
+        # if folderCount < 2:
+        rootPath = folders[0]
+        folders = []
+        for path in os.listdir(rootPath):
+            folders.append(os.path.join(rootPath, path))
+        # else:
+        # Prompt to select one of the top folders,
+        # then continue as we do here.
+
+        for path in folders:
+            branch, leaf = os.path.split(path)
+            item = [leaf, path]
+            promptItems.append(item)
+        
+        if len(promptItems) < 1:
+            promptItems.append(["None", "There's no opened folders."])
+
+        self.promptItems = promptItems
+        flags = sublime.MONOSPACE_FONT
+        selectedIndex = 0
+        onItemHighlighted = None
+        self.window.show_quick_panel(
+            promptItems,
+            on_prompt_done,
+            flags,
+            selectedIndex,
+            onItemHighlighted
+            )
+
+    # ----------------------------------------
+    # Prompt: select a project from the list of 
+    # saved projects.
+    # ----------------------------------------
+    def prompt_select_project(self, on_prompt_done):
         promptItems = []
         for project in self.projects:
             item = [project.name]
@@ -113,24 +158,46 @@ class ProjectManager:
             # The command show_quick_panel is bugged.
             # It is best to have two lines per item (lists of 2).
             promptItems.append(item)
-        # Set empty item if needed.
+        
         if len(promptItems) < 1:
             promptItems.append(["None", "No .sublime-project files were found in 'Users/Projects'."])
-        # Prompt selection of a project.
+
+        flags = sublime.MONOSPACE_FONT
+        selectedIndex = 0
+        onItemHighlighted = None
         self.window.show_quick_panel(
             promptItems,
-            on_prompt_done, # OnDone 
-            sublime.MONOSPACE_FONT, # Flags
-            0, # SelectedIndex
-            None # OnHighlighted
+            on_prompt_done,
+            flags,
+            selectedIndex,
+            onItemHighlighted
             )
 
+    # ----------------------------------------
+    # Set the root folder in the sidebar
+    # by selecting an opened folder.
+    # ----------------------------------------
+    def prompt_root_folder(self):
+        self.prompt_select_folder(self.on_prompt_root_done)
+
+    # ----------------------------------------
+    # Open a project by selecting one from the
+    # list of saved projects.
+    # ----------------------------------------
     def prompt_open(self):
-        self.prompt(self.on_prompt_open_done)
+        self.prompt_select_project(self.on_prompt_open_done)
 
+    # ----------------------------------------
+    # Remove a saved project by selecting one
+    # from the list of saved projects.
+    # ----------------------------------------
     def prompt_remove(self):
-        self.prompt(self.on_prompt_remove_done)
+        self.prompt_select_project(self.on_prompt_remove_done)
 
+    # ----------------------------------------
+    # Create a project including the opened folders
+    # by prompting for a name.
+    # ----------------------------------------
     def prompt_create(self):
         folders = self.window.folders()
         if len(folders) > 0:
@@ -145,14 +212,49 @@ class ProjectManager:
                 )
         else:
             sublime.status_message("Project: there are no folders to save.")
-    # ----------------------
+
+    # ----------------------------------------
+    def on_prompt_root_done(self, index):
+        if index >= 0:
+            item = self.promptItems[index]
+            self.open_project_from_path(item[1])
+
+    # ----------------------------------------
+    def on_prompt_open_done(self, index):
+        projects = self.projects
+        if (index >= 0):
+            if len(projects) > 0:
+                project = projects[index]
+                print("Loading project " + project.name)
+                self.open_project(project)
+                return
+        # Entry "None" was selected, or
+        # user cancelled the selection.
+        # Do no more.
+        return
+
+    # ----------------------------------------
+    def on_prompt_remove_done(self, index):
+        if self.projects != None and len(self.projects) > 0:
+            project = self.projects[index]
+            if ProjectUtils.remove_project(project.path):
+                sublime.status_message("Project: {0} removed.".format(project.name))
+            else:
+                sublime.status_message("Project: error when removing '{0}'.".format(project.name))
+    
+    # ----------------------------------------
+    def on_prompt_create_done(self, projectName):
+        self.new_project(projectName)
+        sublime.status_message("Project: {0} created.".format(projectName))
+
+    # ----------------------------------------
     def open_project_from_path(self, path):
         branch, leaf = os.path.split(path)
         project = Project(leaf, "", [path])
         self.open_project(project)
 
+    # ----------------------------------------
     def open_project(self, project):
-        # Set projectData
         projectData = self.window.project_data() 
         folderEntries = []
         if projectData is None:
@@ -167,6 +269,7 @@ class ProjectManager:
         view.set_status("project_name", "Project | " + project.name)
         view.settings().set('default_dir', project.folders[0])
 
+    # ----------------------------------------
     def close_project(self):
         projectName = 'folders'
         if hasattr(self.window, 'active_project') and self.window.active_project != None:
@@ -181,11 +284,13 @@ class ProjectManager:
             view.settings().set('default_dir', '%USERPROFILE%')
         return None
 
+    # ----------------------------------------
     def new_project(self, name):
         projectData = self.window.project_data()
         path = ProjectUtils.new_project(name, projectData)
         self.window.active_project = Project.load(path)
 
+    # ----------------------------------------
     def save_project(self):
         project = getattr(self.window, 'active_project', None)
         canSave = (
@@ -199,38 +304,16 @@ class ProjectManager:
             sublime.status_message("Project: {0} saved.".format(project.name))
         else:
             self.prompt_create()
-    # ----------------------
-    def on_prompt_open_done(self, index):
-        projects = self.projects
-        if (index >= 0):
-            if len(projects) > 0:
-                project = projects[index]
-                print("Loading project " + project.name)
-                self.open_project(project)
-                return
-        # Entry "None" was selected, or
-        # user cancelled the selection.
-        # Do no more.
-        return
 
-    def on_prompt_remove_done(self, index):
-        if self.projects != None and len(self.projects) > 0:
-            project = self.projects[index]
-            if ProjectUtils.remove_project(project.path):
-                sublime.status_message("Project: {0} removed.".format(project.name))
-            else:
-                sublime.status_message("Project: error when removing '{0}'.".format(project.name))
-
-    def on_prompt_create_done(self, projectName):
-        self.new_project(projectName)
-        sublime.status_message("Project: {0} created.".format(projectName))
 
 # ====================================================
 # Commands
 # ====================================================
-# Command for a SideBar directory.
-# Close currently opened folders and open this one as root 
-# in Sublime.
+
+# ----------------------------------------
+# SideBar directory command:
+# Close currently opened folders and open selected one as root.
+# ----------------------------------------
 class ProjectOpenFromPathCommand(sublime_plugin.WindowCommand):
     def run(self, paths):
         if len(paths) > 0:
@@ -245,23 +328,53 @@ class ProjectOpenFromPathCommand(sublime_plugin.WindowCommand):
                 return True
         return False
 
+# ----------------------------------------
+# Palette command:
+# Open as root a folder from the list of
+# opened folders.
+# ----------------------------------------
+class ProjectRootCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        ProjectManager(self.window).prompt_root_folder()
 
+# ----------------------------------------
+# Palette command:
+# Open as root a project from the list of
+# saved projects.
+# ----------------------------------------
 class ProjectOpenCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).prompt_open()
 
+# ----------------------------------------
+# Palette command:
+# Save the opened folders as a project.
+# ----------------------------------------
 class ProjectSaveCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).save_project()
 
+# ----------------------------------------
+# Palette command:
+# Remove a project from the list of saved
+# projects.
+# ----------------------------------------
 class ProjectRemoveCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).prompt_remove()
 
+# ----------------------------------------
+# Close the opened project and/or
+# the opened folders.
+# ----------------------------------------
 class ProjectCloseCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).close_project()
-        
+
+# ----------------------------------------
+# Print to the console some information 
+# related to project data.
+# ----------------------------------------   
 class ProjectInfoCommand(sublime_plugin.WindowCommand):     
     def run(self):
         print("--------- Info ----------")

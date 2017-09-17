@@ -6,6 +6,6 @@
 	 	"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
 	 },
 	 {
-	 	"caption": "Open As Root", "command": "project_open_from_path", "args": {"paths": []}
+	 	"caption": "Open as Root", "command": "project_open_from_path", "args": {"paths": []}
 	 }
 ]

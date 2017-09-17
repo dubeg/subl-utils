@@ -9,42 +9,11 @@
         "caption": "Explorer: Users/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/User"}
-    },
-    {
-        "caption": "Explorer: Utils/",
-        "command": "open_in_file_manager", 
-        "args": {"path": "$packages/Utils"}
-    },    
+    },   
     {
         "caption": "Explorer: SublimeText/",
         "command": "open_in_file_manager", 
         "args": {"path": "$packages/../../"}
-    },  
-    // Open folders in current window
-    {
-        "caption" : "Open User/",
-        "command" : "add_folder",
-        "args": {"path" : "$packages/User"}
-    },
-    {
-        "caption" : "Open from User/",
-        "command" : "add_folder_prompt",
-        "args": {"path" : "$packages/User"}
-    },
-    {
-        "caption" : "Open Packages/",
-        "command" : "add_folder",
-        "args": {"path" : "$packages"}
-    },
-    {
-        "caption" : "Open from Packages/",
-        "command" : "add_folder_prompt",
-        "args": {"path" : "$packages"}
-    },
-    {
-        "caption" : "Open Downloads/",
-        "command" : "add_folder",
-        "args": {"path" : "%USERPROFILE%/Downloads"}
     },
     // Open URLs
     { 
@@ -77,29 +46,13 @@
     },
     // Open files
     {
-        "caption": "Open Sublime.py",
-        "command": "open_file", 
-        "args": {"file": "$packages/../../sublime.py"}
-    }, 
-    {
         "caption": "Open Preferences",
         "command": "open_file", 
         "args": {"file": "$packages/User/Preferences.sublime-settings"}
-    }, 
-    {
-        "caption": "Open VSDC",
-        "command": "open_file", 
-        "args": {"file": "$packages/Scheme - VSDC/VSDC.tmTheme"}
-    }, 
-    {
-        "caption": "DC: Open DC_3",
-        "command": "open_file", 
-        "args": 
-        {
-            "file": "${packages}/Theme - DC/DC_3.sublime-theme"
-        }
-    },    
+    },
+    // ------------------------------
     // Project Management
+    // ------------------------------
     {
         "caption": "Project: List",
         "command": "project_open"
@@ -107,14 +60,11 @@
     {
         "caption": "Project: Save",
         "command": "project_save"
-    },  
-    // {
-    //     "caption": "Project: Save As",
-    //     "command": "project_save",
-    //     "args": {
-    //         "save_as": true
-    //     }
-    // }, 
+    },
+    {
+        "caption": "Project: Root folder",
+        "command": "project_root"
+    },
     {
         "caption": "Project: Remove",
         "command": "project_remove"    
@@ -127,13 +77,15 @@
         "caption": "Project: Close",
         "command": "project_close"    
     },
-    {
-        "caption": "Project: Info",
-        "command": "project_info"    
-    },
+    // {
+    //     "caption": "Project: Info",
+    //     "command": "project_info"    
+    // },
+    // ------------------------------
     // Wrap
+    // ------------------------------
     {
-        "caption": "Wrap:  0",
+        "caption": "Wrap: None",
         "command": "set_wrap",
         "args":{
             "width": 0
@@ -190,7 +142,9 @@
         "caption": "Wrap: Auto",
         "command": "set_wrap_auto"
     },
+    // ------------------------------
     // File Operations
+    // ------------------------------
     {
         "caption": "Rename file",
         "command": "rename_file"
