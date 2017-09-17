@@ -193,13 +193,17 @@ class ProjectManager:
             and projects != None
             and len(projects) > 0):
             project = projects[index]
-            self.prompt_select_folder(project.folders, self.SELECT_DIR_ONLY, self.prompt_open_from_project_select_folder_done)
+            self.prompt_select_folder(project.folders, self.SELECT_BOTH, self.prompt_open_from_project_select_folder_done)
         return
 
     def prompt_open_from_project_select_folder_done(self, index):
         if index >= 0:
             item = self.promptItems[index]
-            self.open_project_from_path(item[1])
+            path = item[1]
+            if os.path.isdir(path):
+                self.open_project_from_path(item[1])
+            else:
+                self.window.run_command("open_file", {"file": path})
 
 
     # ----------------------------------------
@@ -342,7 +346,7 @@ class ProjectManager:
 
 # ----------------------------------------
 # Palette command:
-# Open as root a folder from a project in the list
+# Open either a folder as root or a file from a project in the list
 # of saved projects.
 # ----------------------------------------
 class ProjectOpenFromProjectCommand(sublime_plugin.WindowCommand):
