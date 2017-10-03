@@ -10,6 +10,13 @@
         }
     },
     {
+        "caption": "Wrap:   0",
+        "command": "set_wrap",
+        "args":{
+            "width": 0
+        }
+    },
+    {
         "caption": "Wrap:  40",
         "command": "set_wrap",
         "args":{

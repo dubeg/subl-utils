@@ -19,8 +19,11 @@ class PopOutFileCommand(sublime_plugin.WindowCommand):
 		window = self.window
 		view = window.active_view()
 		filename = view.file_name()
-		if filename != None and filename != "":
-			subprocess.Popen(["subl", "-n", filename], shell=True)
-			window.status_message("Pop: popped.")
+		if filename != None and filename != "":			
+			window.run_command('close_file')
+			
+			sublime.run_command("new_window")
+			sublime.active_window().open_file(filename)
+			sublime.active_window().set_sidebar_visible(False)
 		else:
 			window.status_message("Pop: unsaved file not supported.")

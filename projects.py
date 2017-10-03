@@ -16,27 +16,32 @@ def plugin_loaded():
 # Project
 # ====================================================
 class Project:
-    FOLDERS_KEY = "folders"
-    PATH_KEY = 'path'
+    KEY_FOLDERS = "folders"
+    KEY_PATH = 'path'
+    KEY_SETTINGS = 'settings'
+    KEY_FOLDER_EXCLUDE = 'folder_exclude_patterns'
     # --------------------------------
-    def __init__(self, name, path, folders):
+    def __init__(self, name, path, folders, data):
         self.name = name
         self.path = path
         self.folders = folders
+        self.data = data
 
     @classmethod
     def load(cls, path):
         name = ProjectUtils.get_name(path)
+        
         # Load project file
         with open(path) as file:
             data = json.load(file)
-        # Get folders
+        
+        # Get folders (array of dict)
         folders = []
-        folderEntries = data[cls.FOLDERS_KEY]
+        folderEntries = data[cls.KEY_FOLDERS]
         for folderEntry in folderEntries:
-            folders.append(folderEntry[cls.PATH_KEY])
-        # Return
-        return Project(name, path, folders)
+            folders.append(folderEntry[cls.KEY_PATH])
+
+        return Project(name, path, folders, data)
 
 # ====================================================
 # Project Management Utilities
@@ -289,26 +294,25 @@ class ProjectManager:
 
     # ----------------------------------------
     def open_project(self, project):
-        projectData = self.window.project_data() 
-        folderEntries = []
-        if projectData is None:
-            projectData = dict()
-        for folderPath in project.folders:
-            folderEntries.append({'path': folderPath})
-        projectData['folders'] = folderEntries
-        self.window.set_project_data(projectData)
+        self.window.set_project_data(project.data)
         self.window.active_project = project
-        # Display 
+
         view = self.window.active_view()
-        view.set_status("project_name", "Project | " + project.name)
         view.settings().set('default_dir', project.folders[0])
 
     # ----------------------------------------
-    def close_project(self):
-        projectName = 'folders'
+    def get_active_project(self):
         if hasattr(self.window, 'active_project') and self.window.active_project != None:
-            projectName = self.window.active_project.name
-            self.window.active_project = None
+            return self.window.active_project
+        return None
+
+    # ----------------------------------------
+    def close_project(self):
+        project = self.get_active_project()
+        projectName = 'folders'
+
+        if project != None:
+            projectName = project.name
 
         self.window.set_project_data(None)
         self.window.active_view().set_status("project_name", "")
@@ -326,7 +330,7 @@ class ProjectManager:
 
     # ----------------------------------------
     def save_project(self):
-        project = getattr(self.window, 'active_project', None)
+        project = self.get_active_project()
         canSave = (
             project is not None 
             and project.path is not None
@@ -338,6 +342,14 @@ class ProjectManager:
             sublime.status_message("Project: {0} saved.".format(project.name))
         else:
             self.prompt_create()
+
+    # ----------------------------------------
+    def open_project_file(self):
+        project = self.get_active_project()
+        if project != None:
+            self.window.open_file(project.path)
+        else:
+            sublime.status_message("Project: no opened project to edit.")
 
 
 # ====================================================
@@ -415,14 +427,29 @@ class ProjectCloseCommand(sublime_plugin.WindowCommand):
         ProjectManager(self.window).close_project()
 
 # ----------------------------------------
+# Open to Edit .sublime-project file
+# ----------------------------------------
+class ProjectEditCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        ProjectManager(self.window).open_project_file()
+
+# ----------------------------------------
 # Print to the console some information 
 # related to project data.
 # ----------------------------------------   
-class ProjectInfoCommand(sublime_plugin.WindowCommand):     
+class ProjectDebugCommand(sublime_plugin.WindowCommand):     
     def run(self):
-        print("--------- Info ----------")
-        projectName = self.window.project_file_name()
-        projectData = self.window.project_data()
-        print(projectName)
-        print(projectData)
-        print("-------------------------")
+        project = ProjectManager(self.window).get_active_project()
+        plugProjectName = getattr(project, "name", None)
+        plugProjectPath = getattr(project, "path", None)
+        winProjectName = self.window.project_file_name()
+        winProjectData = self.window.project_data()
+        print("==========================")
+        print("~ Project Debug ~")
+        print("")
+        print("Window ProjectPath: " + str(winProjectName))
+        print("Window ProjectData: " + str(winProjectData))
+        print("")
+        print("Plugin ProjectName: " + str(plugProjectName))
+        print("Plugin ProjectPath: " + str(plugProjectPath))
+        print("==========================")

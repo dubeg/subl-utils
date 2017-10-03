@@ -30,8 +30,12 @@
         "caption": "Project: Open from project",
         "command": "project_open_from_project"
     },
-    // {
-    //     "caption": "Project: Info",
-    //     "command": "project_info"    
-    // }
+    {
+        "caption": "Project: Edit",
+        "command": "project_edit"    
+    },
+    {
+        "caption": "Project: Debug",
+        "command": "project_debug"    
+    }
 ]
