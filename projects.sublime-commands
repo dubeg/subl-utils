@@ -37,5 +37,9 @@
     {
         "caption": "Project: Debug",
         "command": "project_debug"    
+    },
+    {
+        "caption": "Project: Parent",
+        "command": "project_open_parent_folder_as_project"    
     }
 ]
