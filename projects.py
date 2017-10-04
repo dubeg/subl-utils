@@ -43,6 +43,19 @@ class Project:
 
         return Project(name, path, folders, data)
 
+    @classmethod 
+    def new(cls, name, folders):
+        folderBlocks = []
+        for folder in folders:
+            folderBlocks.append({
+                cls.KEY_PATH : folder
+                })
+        data = {
+            cls.KEY_FOLDERS : folderBlocks
+        }
+        return Project(name, "", folders, data)
+        
+
 # ====================================================
 # Project Management Utilities
 # ====================================================
@@ -208,7 +221,7 @@ class ProjectManager:
             if os.path.isdir(path):
                 self.open_project_from_path(item[1])
             else:
-                self.window.run_command("open_file", {"file": path})
+                self.window.open_file(path)
 
 
     # ----------------------------------------
@@ -237,7 +250,6 @@ class ProjectManager:
             and projects != None
             and len(projects) > 0):
             project = projects[index]
-            print("Loading project " + project.name)
             self.open_project(project)
             return
         # Entry "None" was selected, or
@@ -289,7 +301,10 @@ class ProjectManager:
     # ----------------------------------------
     def open_project_from_path(self, path):
         branch, leaf = os.path.split(path)
-        project = Project(leaf, "", [path])
+        projectName = leaf
+        folders = [path]
+
+        project = Project.new(projectName, folders)
         self.open_project(project)
 
     # ----------------------------------------
@@ -299,6 +314,7 @@ class ProjectManager:
 
         view = self.window.active_view()
         view.settings().set('default_dir', project.folders[0])
+
 
     # ----------------------------------------
     def get_active_project(self):
