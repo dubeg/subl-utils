@@ -53,7 +53,7 @@ class Project:
         folders = cls.GetFoldersFromData(data)
         if name == None or name == "":
             name = cls.GetNameFromPath(folders[0])
-        return Project(name, None, data)
+        return Project(name, '', data)
 
     @classmethod 
     def New(cls, name, folders):
@@ -61,7 +61,7 @@ class Project:
         for folder in folders:
             blocks.append({ KEY_PATH : folder })
         data = { KEY_FOLDERS : blocks }
-        return Project(name, "", data)
+        return Project(name, '', data)
 
     # --------------------------------
     # Constructor
@@ -362,11 +362,20 @@ class ProjectManager:
             self.PromptCreate()
 
     def EditProject(self):
+        err = ''
         project = self.GetActiveProject()
         if project != None:
-            self.window.open_file(project.path)
+            if project.path != None and project.path.strip() != '':
+                if os.path.exists(project.path):
+                    self.window.open_file(project.path)
+                else:
+                    err = 'project''s sublime-project file was not found, ' + project.path
+            else:
+                err = 'project has no associated sublime-project file'
         else:
-            sublime.status_message("Project: no opened project to edit.")
+            err = 'no project opened'
+        if err != '':
+            sublime.status_message("Project: {0}".format(err))
 
 
 # ====================================================
@@ -416,7 +425,7 @@ class ProjectOpenFromPathCommand(sublime_plugin.WindowCommand):
 # Open as root a folder from the list of
 # opened folders.
 # ----------------------------------------
-class ProjectRootCommand(sublime_plugin.WindowCommand):
+class ProjectScopeToCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).PromptScopeTo()
 

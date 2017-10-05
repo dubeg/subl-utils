@@ -12,7 +12,7 @@
     },
     {
         "caption": "Project: Scope To",
-        "command": "project_root"
+        "command": "project_scope_to"
     },
     {
         "caption": "Project: Remove",
