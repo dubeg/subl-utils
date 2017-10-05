@@ -17,6 +17,7 @@ def plugin_loaded():
     ProjectManager.PROJECTS_DIR = dir
     return
 
+
 # ====================================================
 # Project
 # ====================================================
@@ -381,28 +382,25 @@ class ProjectManager:
 # ====================================================
 # Commands
 # ====================================================
-
 # ----------------------------------------
-# Palette command:
-# Open the parent folder of the first currently opened folder
-# as the active project.
+# PaletteCommand:
+# Open parent folder of first opened folder
 # ----------------------------------------
 class ProjectOpenParentFolderAsProject(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).OpenParentFolder()
 
 # ----------------------------------------
-# Palette command:
-# Open either a folder as root or a file from a project in the list
-# of saved projects.
+# PaletteCommand:
+# Open folder as root or file from saved projects
 # ----------------------------------------
 class ProjectOpenFromProjectCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).PromptOpenFromProject()
 
 # ----------------------------------------
-# SideBar directory command:
-# Close currently opened folders and open selected one as root.
+# SideBarCommand:
+# Open selected as root
 # ----------------------------------------
 class ProjectOpenFromPathCommand(sublime_plugin.WindowCommand):
     def run(self, paths):
@@ -421,58 +419,55 @@ class ProjectOpenFromPathCommand(sublime_plugin.WindowCommand):
         return False
 
 # ----------------------------------------
-# Palette command:
-# Open as root a folder from the list of
-# opened folders.
+# PaletteCommand:
+# Open as root a folder from opened folders
 # ----------------------------------------
 class ProjectScopeToCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).PromptScopeTo()
 
 # ----------------------------------------
-# Palette command:
-# Open as root a project from the list of
-# saved projects.
+# PaletteCommand:
+# Open as root a project from saved projects
 # ----------------------------------------
 class ProjectOpenCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).PromptOpen()
 
 # ----------------------------------------
-# Palette command:
-# Save the opened folders as a project.
+# PaletteCommand:
+# Save opened folders as project
 # ----------------------------------------
 class ProjectSaveCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).SaveProject()
 
 # ----------------------------------------
-# Palette command:
-# Remove a project from the list of saved
-# projects.
+# PaletteCommand:
+# Remove project from saved projects
 # ----------------------------------------
 class ProjectRemoveCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).PromptRemove()
 
 # ----------------------------------------
-# Close the opened project and/or
-# the opened folders.
+# PaletteCommand:
+# Close opened folders
 # ----------------------------------------
 class ProjectCloseCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).CloseProject()
 
 # ----------------------------------------
-# Open to Edit .sublime-project file
+# PaletteCommand:
+# Open .sublime-project of opened project
 # ----------------------------------------
 class ProjectEditCommand(sublime_plugin.WindowCommand):
     def run(self):
         ProjectManager(self.window).EditProject()
 
 # ----------------------------------------
-# Print to the console some information 
-# related to project data.
+# Print information for debugging
 # ----------------------------------------   
 class ProjectDebugCommand(sublime_plugin.WindowCommand):     
     def run(self):
