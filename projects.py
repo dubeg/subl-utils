@@ -75,7 +75,7 @@ class Project:
     # --------------------------------
     # Private
     # --------------------------------
-    def GetPath(self):
+    def GeneratePath(self):
         filename = self.name + FILE_EXT
         path = os.path.join(PROJECTS_DIR, filename)
         return path
@@ -86,7 +86,7 @@ class Project:
     # --------------------------------
     def SaveOnDisk(self):
         if self.path == None or self.path == '':
-            self.path = self.GetPath()
+            self.path = self.GeneratePath()
         with open(self.path, 'w') as file:
             json.dump(self.data, file)
         return path
