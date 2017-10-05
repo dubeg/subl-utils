@@ -27,7 +27,7 @@
         "command": "project_close"    
     },
     {
-        "caption": "Project: Open from project",
+        "caption": "Project: Open from",
         "command": "project_open_from_project"
     },
     {
@@ -39,7 +39,7 @@
         "command": "project_debug"    
     },
     {
-        "caption": "Project: Parent",
+        "caption": "Project: Open parent",
         "command": "project_open_parent_folder_as_project"    
     }
 ]

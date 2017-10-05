@@ -139,9 +139,9 @@ class ProjectManager:
         return projects
 
     # ----------------------------------------
-    # Select folder from opened folders.
+    # Select file or folder from opened folders.
     # ----------------------------------------
-    def PromptSelectFolder(self, rootFolders, selectType, onPromptDone):
+    def PromptSelectFileOrFolder(self, rootFolders, selectType, onPromptDone):
         promptItems = []
 
         folderCount = len(rootFolders)
@@ -220,7 +220,7 @@ class ProjectManager:
             and projects != None
             and len(projects) > 0):
             project = projects[index]
-            self.PromptSelectProject(project.GetFolders(), self.SELECT_BOTH, self.PromptOpenFromProject_SelectFolderDone)
+            self.PromptSelectFileOrFolder(project.GetFolders(), self.SELECT_BOTH, self.PromptOpenFromProject_SelectFolderDone)
         return
 
     def PromptOpenFromProject_SelectFolderDone(self, index):
@@ -238,7 +238,7 @@ class ProjectManager:
     # ----------------------------------------
     def PromptScopeTo(self):
         folders = self.window.folders()
-        self.PromptSelectFolder(folders, self.SELECT_DIR_ONLY, self.PromptScopeToDone)
+        self.PromptSelectFileOrFolder(folders, self.SELECT_DIR_ONLY, self.PromptScopeToDone)
 
     def PromptScopeToDone(self, index):
         if index >= 0:
