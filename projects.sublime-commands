@@ -27,6 +27,10 @@
         "command": "project_close"    
     },
     {
+        "caption": "Project: Rename",
+        "command": "project_rename"    
+    },
+    {
         "caption": "Project: Open from",
         "command": "project_open_from_project"
     },

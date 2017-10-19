@@ -46,7 +46,7 @@ class Project:
         folders = cls.GetFoldersFromData(data)
         name = 'Project Name'
         if len(folders) > 0:
-            name = cls.GetNameFromPath(folders[0])
+            name = cls.GetNameFromPath(path)
         return Project(name, path, data)
 
     @classmethod
@@ -77,7 +77,7 @@ class Project:
     # --------------------------------
     def GeneratePath(self):
         filename = self.name + FILE_EXT
-        path = os.path.join(PROJECTS_DIR, filename)
+        path = os.path.join(ProjectManager.PROJECTS_DIR, filename)
         return path
 
 
@@ -89,7 +89,7 @@ class Project:
             self.path = self.GeneratePath()
         with open(self.path, 'w') as file:
             json.dump(self.data, file)
-        return path
+        return self.path
 
     def DeleteFromDisk(self):
         try:
@@ -102,6 +102,9 @@ class Project:
     def GetFolders(self):
         return Project.GetFoldersFromData(self.data)
 
+    def Rename(self, newName):
+        self.name = newName
+        self.path = self.GeneratePath()
         
 
 # ====================================================
@@ -299,6 +302,20 @@ class ProjectManager:
         self.NewProject(projectName)
         sublime.status_message("Project: {0} created.".format(projectName))
 
+
+    # ----------------------------------------
+    # Rename project
+    # ----------------------------------------
+    def PromptRename(self):
+        project = self.GetActiveProject()
+        if project != None:
+            self.window.show_input_panel("Rename", project.name, self.PromptRenameDone, None, None)
+
+    def PromptRenameDone(self, newName):
+        project = self.GetActiveProject()
+        project.Rename(newName)
+        self.SaveProject();
+
     # ----------------------------------------
     # Public
     # ----------------------------------------
@@ -311,6 +328,9 @@ class ProjectManager:
     def OpenProject(self, project):
         self.window.set_project_data(project.data)
         self.window.active_project = project
+        msg = "Project: {0} opened.".format(project.name)
+        sublime.status_message(msg)
+        print(msg)
 
     def OpenParentFolder(self):
         project = self.GetActiveProject()
@@ -358,7 +378,9 @@ class ProjectManager:
         if canSave:
             project.data = self.window.project_data()
             project.SaveOnDisk()
-            sublime.status_message("Project: {0} saved.".format(project.name))
+            msg = "Project: {0} saved.".format(project.name)
+            sublime.status_message(msg)
+            print(msg)
         else:
             self.PromptCreate()
 
@@ -382,6 +404,10 @@ class ProjectManager:
 # ====================================================
 # Commands
 # ====================================================
+class ProjectRenameCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        ProjectManager(self.window).PromptRename()
+
 # ----------------------------------------
 # PaletteCommand:
 # Open parent folder of first opened folder
