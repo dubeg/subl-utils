@@ -87,6 +87,7 @@ class Project:
     def SaveOnDisk(self):
         if self.path == None or self.path == '':
             self.path = self.GeneratePath()
+        os.makedirs(os.path.dirname(self.path), exist_ok=True)
         with open(self.path, 'w') as file:
             json.dump(self.data, file)
         return self.path
