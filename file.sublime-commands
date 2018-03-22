@@ -3,8 +3,8 @@
     // File Operations
     // ------------------------------
     {
-        "caption": "Rename file",
-        "command": "rename_file"
+        "caption": "Rename file (Utils)",
+        "command": "rename_file_util"
     },
     {
         "caption": "Pop file",
