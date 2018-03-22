@@ -93,7 +93,7 @@ class Project:
 
     def DeleteFromDisk(self):
         try:
-            os.Remove(self.path)
+            os.remove(self.path)
             return self.path
         except OSError as e:
             print( "Project file could not be delete: " + e )
