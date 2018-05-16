@@ -4,6 +4,8 @@ import sublime_plugin
 import os
 import json
 
+KEY_SETTINGS = 'settings'
+KEY_DEFAULTDIR = 'default_dir'
 KEY_FOLDERS = 'folders'
 KEY_PATH = 'path'
 KEY_SETTINGS = 'settings'
@@ -47,6 +49,7 @@ class Project:
         name = 'Project Name'
         if len(folders) > 0:
             name = cls.GetNameFromPath(path)
+            data[KEY_SETTINGS] = {KEY_DEFAULTDIR: folders[0]}
         return Project(name, path, data)
 
     @classmethod
