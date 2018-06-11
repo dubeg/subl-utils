@@ -373,6 +373,12 @@ class ProjectManager:
         self.window.active_project = project
 
     def SaveProject(self):
+        try:
+            os.makedirs(ProjectManager.PROJECTS_DIR)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
         project = self.GetActiveProject()
         canSave = (
             project is not None 
