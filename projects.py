@@ -1,6 +1,7 @@
 import sublime
 import sublime_api
 import sublime_plugin
+import errno
 import os
 import json
 
@@ -363,6 +364,7 @@ class ProjectManager:
             projectName = project.name
 
         self.window.set_project_data(None)
+        self.window.active_project = None
         sublime.status_message("Project: {0} closed.".format(projectName))
         return None
 
