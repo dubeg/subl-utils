@@ -10,22 +10,27 @@ class CurrentPathStatusCommand(sublime_plugin.EventListener):
         path = view.file_name()
         if path != None and path != "":
             maxDirs = 3
-            desiredNameLength = 12
-            minHiddenChars = 4
-            path = self.shortenPath(path, maxDirs, desiredNameLength, minHiddenChars)
+            path = self.shortenPath(path, maxDirs)
             view.set_status('zPath', path)
 
-    def shortenPath(self, path, maxDirs, desiredNameLength, minHiddenChars):
+    # --------------------------------
+    # Shorten path by hidding directories,
+    # exluding the root. 
+    # --------------------------------
+    def shortenPath(self, path, maxDirs):
         path = os.path.normpath(path)
         parts = list(filter(None, path.split(os.sep)))
         # ---
         partsCount = len(parts)
-        dirCount = partsCount - 2
-        if dirCount < 1:
+
+        dirCount = partsCount - 1 # Minus fileName.
+        if dirCount < maxDirs:
             return path;
-        # Filename
+
+        # Add filename
         shortenedPath = parts[partsCount - 1] 
-        # Directories
+
+        # Add directories
         for i in range(dirCount):
             if i == 0: 
                 continue;
@@ -33,10 +38,13 @@ class CurrentPathStatusCommand(sublime_plugin.EventListener):
                 break;
             name = parts[partsCount - 1 - i];
             shortenedPath = name + os.sep + shortenedPath
+        
+        # Add "..." if necessary
         hiddenDirs = dirCount - maxDirs
         if hiddenDirs > 0:
             shortenedPath = '...' + os.sep + shortenedPath
-        # Root (drive or unc mount)
+        
+        # Add root
         shortenedPath = parts[0] + os.sep + shortenedPath
         if path.startswith('\\\\'):
             shortenedPath = '\\\\' + shortenedPath
