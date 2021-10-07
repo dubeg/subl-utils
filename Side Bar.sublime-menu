@@ -3,9 +3,12 @@
 		"caption": "-", "id": "OpenBrowser" 
 	},
 	{
-		"caption": "Open in File Explorer", "command": "open_folder", "args": {"paths": []}
+		"caption": "Open Containing Folder...", "command": "open_containing_folder", "args": {"files": []}
 	},
 	{
-		"caption": "Scope To", "command": "project_open_from_path", "args": {"paths": []}
+		"caption": "Scope To", "command": "project_open_from_path", "args": { "paths": []}
+	},
+	{
+		"caption": "Open File", "command": "open_file_using_shell", "args": {"files": []}
 	}
 ]
