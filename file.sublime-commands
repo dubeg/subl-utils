@@ -9,5 +9,13 @@
     {
         "caption": "Pop file",
         "command": "pop_out_file",
+    },
+    {
+        "caption": "Split file into files",
+        "command": "split_file",
+    },
+    {
+        "caption": "Split file into files (custom)",
+        "command": "split_file_custom",
     }
 ]
