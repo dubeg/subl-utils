@@ -108,3 +108,25 @@ class OpenFileUsingShell(sublime_plugin.WindowCommand):
             if os.path.isdir(x):
                 return False
         return True
+
+
+# --------------------------------
+# Open file using FilePilot.
+# --------------------------------
+class OpenFileUsingFilePilot(sublime_plugin.WindowCommand):
+    def run(self, files):
+        filepilot_path = os.path.join(os.environ['USERPROFILE'], 'AppData', 'Local', 'Voidstar', 'FilePilot', 'FPilot.exe')
+        for x in files:
+            subprocess.Popen([filepilot_path, x])
+    
+    def is_visible(self, files):
+        return len(files) > 0
+
+class OpenFolderUsingFilePilotCommand(sublime_plugin.WindowCommand):
+    def run(self, dirs):
+        filepilot_path = os.path.join(os.environ['USERPROFILE'], 'AppData', 'Local', 'Voidstar', 'FilePilot', 'FPilot.exe')
+        for x in dirs:
+            subprocess.Popen([filepilot_path, x])
+
+    def is_visible(self, dirs):
+        return len(dirs) > 0

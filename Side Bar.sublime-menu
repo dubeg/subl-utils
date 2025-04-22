@@ -2,13 +2,16 @@
 	{
 		"caption": "-", "id": "OpenBrowser" 
 	},
-	{
-		"caption": "Open Containing Folder...", "command": "open_containing_folder", "args": {"files": []}
-	},
+	// {
+	// 	"caption": "Open Containing Folder...", "command": "open_containing_folder", "args": {"files": []}
+	// },
 	{
 		"caption": "Scope To", "command": "project_open_from_path", "args": { "paths": []}
 	},
 	{
-		"caption": "Open File", "command": "open_file_using_shell", "args": {"files": []}
-	}
+		"caption": "Open FilePilot", "command": "open_file_using_file_pilot", "args": {"files": []}
+	},
+	{
+		"caption": "Open FilePilot", "command": "open_folder_using_file_pilot", "args": {"dirs": []}
+	},
 ]

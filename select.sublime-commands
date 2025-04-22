@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Selection: Select All except folded",
+        "command": "select_all_except_folded"
+    }
+]
